@@ -1,0 +1,131 @@
+/* Reset de estilos para limpiar el estilo predeterminado del navegador */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Encabezado de página */
+header {
+  background-color: #333;
+  color: white;
+  padding: 1em;
+}
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+nav li {
+  display: inline;
+  margin-right: 10px;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+/* General */
+body {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Encabezados h1 y h2 */
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+/* Enlaces */
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Botones */
+button {
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Formularios */
+form {
+  margin-bottom: 20px;
+}
+
+/* Tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+th,
+td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 10px;
+}
+th {
+  background-color: #c5c5c5;
+}
+.centered-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+.table-icon {
+  width: 20px;
+  height: 20px;
+  margin: 0px 10px;
+}
+
+/* Imágenes */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Spinner */
+.spinner-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999; /* Asegura que esté por encima de otros elementos */
+  background-color: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente para mejorar la visibilidad */
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column; /* Ajusta la dirección a column */
+  align-items: center;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px; /* Agrega un margen para separar del texto */
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

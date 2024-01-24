@@ -1,30 +1,41 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <TestOne/>
-  <hr>
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <HeaderMenu />
+  <router-view :customersData="customersData" />
+  <hr />
 </template>
 
 <script>
-import TestOne from './components/TestOne.vue'
-import HelloWorld from './components/HelloWorld.vue'
+import HeaderMenu from "@/components/HeaderMenu.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    TestOne,
-    HelloWorld
-  }
-}
+    HeaderMenu,
+  },
+  data() {
+    return {
+      customersData: [],
+      serverUrl: "",
+    };
+  },
+  mounted() {
+    this.fetchCustomersData();
+  },
+  methods: {
+    async fetchCustomersData() {
+      try {
+        const response = await fetch(this.$config.serverUrl);
+        const data = await response.json();
+        console.log("res data:", data);
+        this.customersData = data;
+      } catch (error) {
+        console.error("Error fetching data from server", error);
+      }
+    },
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import "./assets/styles.css";
 </style>
