@@ -6,7 +6,7 @@
 </template>
   
 <script>
-import "@/assets/styles.css"
+import "@/styles/components/Spinner.css"
 
 export default {
     name: "LoaderSpinner",

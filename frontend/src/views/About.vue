@@ -1,5 +1,10 @@
 <template>
-  <h1>About</h1>
+  <div class="about">
+    <h1>About</h1>
+      <p>
+        💻 Hey there! I'm Hector Martinez
+      </p>
+  </div>
 </template>
 
 <script>

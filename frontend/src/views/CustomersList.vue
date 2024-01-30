@@ -1,13 +1,12 @@
 <template>
   <div>
-    <h1>Customers</h1>
+    <NoResponse :noResponse="noResponse" :pageName="pageName" :path="path"/>
     <Spinner :isLoading="isLoading"/>
-    <div v-if="!isLoading">
+    <div v-if="!isLoading && !noResponse">
+      <h1>Customers</h1>
       <table>
         <thead>
           <tr>
-            <th>type</th>
-            <!-- <th>full</th> -->
             <th>ID</th>
             <th>First Name</th>
             <th>Last Name</th>
@@ -19,8 +18,6 @@
         </thead>
         <tbody>
           <tr v-for="customerData in customersData" :key="customerData.id">
-            <td>{{ typeof customerData }}</td>
-            <!-- <td>{{ customerData }}</td> -->
             <td>{{ customerData.id }}</td>
             <td>{{ customerData.firstname }}</td>
             <td>{{ customerData.lastname }}</td>
@@ -51,27 +48,47 @@
 </template>
 
 <script>
+import NoResponse from '@/components/NoResponse.vue';
 import Spinner from '@/components/Spinner.vue'
 
 export default {
   name: "CustomersList",
   components: {
+    NoResponse,
     Spinner
   },
   data () {
     return {
-      isLoading: true
+      noResponse: false,
+      isLoading: true,
+      pageName: this.$options.name,
+      path: this.$route.path,
+      customersData: []
     }
   },
   mounted() {
+    this.fetchCustomersData();
     setTimeout(() => {
       if (this.customersData.length > 0) {
+        this.noResponse = false
+        this.isLoading = false;
+      } else {
+        this.noResponse = true;
         this.isLoading = false;
       }
     }, 2000);
   },
-  props: ["customersData"],
   methods: {
+    async fetchCustomersData() {
+      try {
+        const response = await fetch(this.$config.serverUrl);
+        const data = await response.json();
+        console.log("res data:", data);
+        this.customersData = data;
+      } catch (error) {
+        console.error("Error fetching data from server", error);
+      }
+    },
     formatDate(dateString) {
       const options = { year: "numeric", month: "2-digit" };
       return new Date(dateString).toLocaleDateString(options);

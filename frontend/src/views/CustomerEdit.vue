@@ -1,9 +1,7 @@
 <template>
   <div>
-    <div v-if="customerData === null">
-      <Spinner :isLoading="customerData === null" />
-    </div>
-    <div v-else>
+    <Spinner :isLoading="isLoading" />
+    <div v-if="!isLoading">
       <h2>Edit Customer</h2>
       <label for="firstname">First Name:</label>
       <input
@@ -11,6 +9,7 @@
         type="text"
         id="firstname"
         required
+        @input="handleInputChange('firstname')"
       />
       <button @click="saveEdit(this.customerData.id)">Save</button>
       <button @click="cancelEdit">Cancel</button>
@@ -28,7 +27,8 @@ export default {
   },
   data () {
     return {
-      customerData: null
+      customerData: null,
+      isLoading: true
     }
   },
   // Mounted es asíncrono así que si en template se intenta acceder a un 
@@ -37,14 +37,19 @@ export default {
     // TODO remove timeout y activar nextTick
     setTimeout(() => {
       this.customerData = JSON.parse(this.$route.query.customerData)
-    }, 2000)
+      this.isLoading = false
+    }, 500)
     // this.$nextTick(() => {
     //   this.customerData = JSON.parse(this.$route.query.customerData)
-    //   console.log("CUSTOMERDATA!:", this.customerData)
     // })
   },
   methods: {
+    handleInputChange(propertyName) {
+      console.log(`Input value: ${this.customerData[propertyName]}`)
+    },
     async saveEdit(id) {
+      // const updatedData = JSON.stringify(this.customerData)
+      // console.log(`updatedData: ${updatedData}`)
       try {
         const response = await fetch(
           `${this.$config.serverUrl}/customers/edit/${id}`,
@@ -53,16 +58,15 @@ export default {
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(this.editedCustomer)
+            body: this.customerData
           },
         );
         console.log(response);
         if (response.ok) {
-          // Si la actualización fue exitosa, redirige a la lista de clientes
+          // Si se actualiza correctamente, redirigirá a la lista de clientes
           this.$router.push("/customers");
           console.log(`Customer with id ${id} updated successfully.`);
         } else {
-          // Si la actualización falló, muestra un mensaje de error
           console.error(`Failed to update customer with id ${id}.`);
         }
       } catch (error) {

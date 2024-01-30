@@ -1,41 +1,22 @@
 <template>
-  <HeaderMenu />
-  <router-view :customersData="customersData" />
+  <NavBar />
+  <router-view/>
   <hr />
 </template>
 
 <script>
-import HeaderMenu from "@/components/HeaderMenu.vue";
+import "@/styles/main.css"
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: "App",
   components: {
-    HeaderMenu,
+    NavBar,
   },
   data() {
     return {
-      customersData: [],
       serverUrl: "",
     };
-  },
-  mounted() {
-    this.fetchCustomersData();
-  },
-  methods: {
-    async fetchCustomersData() {
-      try {
-        const response = await fetch(this.$config.serverUrl);
-        const data = await response.json();
-        console.log("res data:", data);
-        this.customersData = data;
-      } catch (error) {
-        console.error("Error fetching data from server", error);
-      }
-    },
-  },
+  }
 };
 </script>
-
-<style>
-@import "./assets/styles.css";
-</style>
