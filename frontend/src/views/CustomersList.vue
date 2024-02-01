@@ -1,7 +1,7 @@
 <template>
   <div>
-    <NoResponse :noResponse="noResponse" :pageName="pageName" :path="path"/>
-    <Spinner :isLoading="isLoading"/>
+    <NoResponse :noResponse="noResponse" :pageName="pageName" :path="path" />
+    <Spinner :isLoading="isLoading" />
     <div v-if="!isLoading && !noResponse">
       <h1>Customers</h1>
       <table>
@@ -26,7 +26,13 @@
             <td>{{ formatDate(customerData.birthdate) }}</td>
             <td class="centered-cell">
               <!-- <router-link :to="{ name: 'edit', params: { id: customerData.id}, query: { customerData: customerData } }"> -->
-              <router-link :to="{ name: 'edit', params: { id: customerData.id}, query: {customerData: JSON.stringify(customerData) } }">
+              <router-link
+                :to="{
+                  name: 'edit',
+                  params: { id: customerData.id },
+                  query: { customerData: JSON.stringify(customerData) },
+                }"
+              >
                 <img
                   src="@/assets/icon_edit.svg"
                   alt="Edit Icon"
@@ -48,29 +54,29 @@
 </template>
 
 <script>
-import NoResponse from '@/components/NoResponse.vue';
-import Spinner from '@/components/Spinner.vue'
+import NoResponse from "@/components/NoResponse.vue";
+import Spinner from "@/components/Spinner.vue";
 
 export default {
   name: "CustomersList",
   components: {
     NoResponse,
-    Spinner
+    Spinner,
   },
-  data () {
+  data() {
     return {
       noResponse: false,
       isLoading: true,
       pageName: this.$options.name,
       path: this.$route.path,
-      customersData: []
-    }
+      customersData: [],
+    };
   },
   mounted() {
     this.fetchCustomersData();
     setTimeout(() => {
       if (this.customersData.length > 0) {
-        this.noResponse = false
+        this.noResponse = false;
         this.isLoading = false;
       } else {
         this.noResponse = true;
@@ -81,9 +87,9 @@ export default {
   methods: {
     async fetchCustomersData() {
       try {
-        const response = await fetch(this.$config.serverUrl);
-        const data = await response.json();
-        console.log("res data:", data);
+        const res = await fetch(`${this.$config.serverUrl}/customers/list`);
+        const data = await res.json();
+        // console.log("res:", data);
         this.customersData = data;
       } catch (error) {
         console.error("Error fetching data from server", error);
@@ -95,13 +101,13 @@ export default {
     },
     async deleteCustomer(id) {
       try {
-        const response = await fetch(
+        const res = await fetch(
           `${this.$config.serverUrl}/customers/delete/${id}`,
           {
             method: "PATCH",
-          },
+          }
         );
-        if (response.ok) {
+        if (res.ok) {
           // Emit event to notify App.vs about the deletion
           this.$root.fetchCustomersData();
           console.log(`Customer with ID "${id}" deleted successfully.`);

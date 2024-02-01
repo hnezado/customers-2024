@@ -18,51 +18,51 @@
 </template>
 
 <script>
-import Spinner from '@/components/Spinner.vue'
+import Spinner from "@/components/Spinner.vue";
 
 export default {
   name: "CustomerEdit",
   components: {
-    Spinner
+    Spinner,
   },
-  data () {
+  data() {
     return {
       customerData: null,
-      isLoading: true
-    }
+      isLoading: true,
+    };
   },
-  // Mounted es asíncrono así que si en template se intenta acceder a un 
+  // Mounted es asíncrono así que si en template se intenta acceder a un
   // atributo de customerData, puede que éste sea null y de error
   mounted() {
     // TODO remove timeout y activar nextTick
     setTimeout(() => {
-      this.customerData = JSON.parse(this.$route.query.customerData)
-      this.isLoading = false
-    }, 500)
+      this.customerData = JSON.parse(this.$route.query.customerData);
+      this.isLoading = false;
+    }, 500);
     // this.$nextTick(() => {
     //   this.customerData = JSON.parse(this.$route.query.customerData)
     // })
   },
   methods: {
     handleInputChange(propertyName) {
-      console.log(`Input value: ${this.customerData[propertyName]}`)
+      console.log(`Input value: ${this.customerData[propertyName]}`);
     },
     async saveEdit(id) {
       // const updatedData = JSON.stringify(this.customerData)
       // console.log(`updatedData: ${updatedData}`)
       try {
-        const response = await fetch(
+        const res = await fetch(
           `${this.$config.serverUrl}/customers/edit/${id}`,
           {
             method: "PUT",
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
             },
-            body: this.customerData
-          },
+            body: this.customerData,
+          }
         );
-        console.log(response);
-        if (response.ok) {
+        console.log(res);
+        if (res.ok) {
           // Si se actualiza correctamente, redirigirá a la lista de clientes
           this.$router.push("/customers");
           console.log(`Customer with id ${id} updated successfully.`);

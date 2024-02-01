@@ -37,7 +37,7 @@ a {
   text-decoration: none;
 }
 
-/* Estilos para el menú desplegable en tamaños de pantalla pequeños */
+/* Small screen Navbar */
 @media screen and (max-width: 768px) {
   ul {
     display: none;
