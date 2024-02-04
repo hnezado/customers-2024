@@ -1,11 +1,12 @@
 <template>
   <h1>Signup</h1>
   <div class="signup">
+    <span>{{ infoMsg }}</span>
     <form @submit.prevent="signup">
-      <label for="username">Username:</label>
-      <input type="text" id="username" v-model="newUser.username" required />
       <label for="email">Email:</label>
       <input type="text" id="email" v-model="newUser.email" required />
+      <label for="username">Username:</label>
+      <input type="text" id="username" v-model="newUser.username" required />
       <label for="password">Password:</label>
       <input
         type="password"
@@ -26,10 +27,11 @@ export default {
   data() {
     return {
       newUser: {
-        username: "",
         email: "",
+        username: "",
         password: "",
       },
+      infoMsg: "",
     };
   },
   methods: {
@@ -42,11 +44,10 @@ export default {
           },
           body: JSON.stringify(this.newUser),
         });
+        const parsedRes = await res.json();
+        this.infoMsg = parsedRes.message;
         if (res.ok) {
-          const data = await res.json();
-          console.log(data.message);
-          console.log(data.username);
-          sessionStorage.setItem("username", data.username);
+          sessionStorage.setItem("usernameFromSignup", parsedRes.data.username);
           this.$router.push("/login");
         } else {
           console.error("Error signing up");

@@ -1,6 +1,7 @@
 <template>
   <h1>Login</h1>
   <div class="login">
+    <span>{{ infoMsg }}</span>
     <form @submit.prevent="login">
       <label for="username">Username:</label>
       <input type="text" id="username" v-model="userData.username" required />
@@ -27,11 +28,11 @@ export default {
         username: "",
         password: "",
       },
+      infoMsg: "",
     };
   },
   mounted() {
-    const usernameFromSignup = sessionStorage.getItem("username");
-    console.log("usernameFromSignup:", usernameFromSignup);
+    const usernameFromSignup = sessionStorage.getItem("usernameFromSignup");
     if (usernameFromSignup) {
       this.userData.username = usernameFromSignup;
     }
@@ -47,9 +48,10 @@ export default {
           body: JSON.stringify(this.userData),
         });
         if (res.ok) {
-          const data = await res.json();
-          console.log(data.message);
-          this.$router.push("/");
+          const parsedRes = await res.json();
+          this.infoMsg = parsedRes.message;
+          sessionStorage.setItem("userData", JSON.stringify(parsedRes.data));
+          this.$router.push("/profile");
         } else {
           console.error("Error logging in");
         }

@@ -11,6 +11,15 @@
           <li><router-link to="/customers/list">Customers</router-link></li>
           <li><router-link to="/about">About</router-link></li>
           <li><router-link to="/contact">Contact</router-link></li>
+          <div v-if="logged" class="profile-but">
+            <router-link to="/profile" class="profile-link"
+              ><img
+                src="@/assets/icon_profile.svg"
+                alt="Profile Icon"
+                class="icon"
+              />Hello,<br />{{ userData.username }}
+            </router-link>
+          </div>
         </ul>
       </nav>
     </div>
@@ -25,7 +34,12 @@ export default {
   data() {
     return {
       isMenuVisible: false,
+      userData: {},
+      logged: false,
     };
+  },
+  mounted() {
+    this.$eventBus.on("userSession", this.handleUserSession);
   },
   methods: {
     toggleMenu() {
@@ -33,6 +47,10 @@ export default {
     },
     hideMenu() {
       this.isMenuVisible = false;
+    },
+    handleUserSession(status) {
+      this.userData = JSON.parse(sessionStorage.getItem("userData"));
+      this.logged = status.logged;
     },
   },
 };
