@@ -1,13 +1,15 @@
 :root {
-  --primary: #007bff; /* Blue */
-  --secondary: #0056b3; /* Dark Blue */
+  --primary: #007bff;
+  --secondary: #0056b3;
   --tertiary: #3d73ac;
-  --accent: #b1cff0; /* Light Blue */
-  --background: #ffffff; /* White */
-  --text: #333333; /* Dark Grey */
-  --border: #dddddd; /* Light Grey */
-  --success: #28a745; /* Green */
-  --error: #dc3545; /* Red */
-  --warning: #ffc107; /* Yellow */
-  --info: #17a2b8; /* Info Blue */
+  --quaternary: #8dadff;
+  --accent: #b1cff0;
+  --subtle: #e6f2ff;
+  --background: #ffffff;
+  --text: #333333;
+  --border: #dddddd;
+  --success: #28a745;
+  --error: #dc3545;
+  --warning: #ffc107;
+  /* --info: #17a2b8; */
 }

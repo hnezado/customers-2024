@@ -3,6 +3,15 @@
     <Spinner :isLoading="isLoading" />
     <div v-if="!isLoading">
       <h2>Edit Customer</h2>
+      <div v-for="(value, key) in customerData" :key="key">
+        <label :for="key">{{ key }}:</label>
+        <input
+          v-model="customerData[key]"
+          :type="typeof customerData[key] === 'number' ? 'number' : 'text'"
+          :id="key"
+          required
+        />
+      </div>
       <label for="firstname">First Name:</label>
       <input
         v-model="customerData.firstname"

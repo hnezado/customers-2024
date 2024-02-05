@@ -4,51 +4,46 @@
     <Spinner :isLoading="isLoading" />
     <div v-if="!isLoading && !noResponse">
       <h1>Customers</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Birthdate</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="customerData in customersData" :key="customerData.id">
-            <td>{{ customerData.id }}</td>
-            <td>{{ customerData.firstname }}</td>
-            <td>{{ customerData.lastname }}</td>
-            <td>{{ customerData.email }}</td>
-            <td>{{ customerData.phone }}</td>
-            <td>{{ formatDate(customerData.birthdate) }}</td>
-            <td class="centered-cell">
-              <!-- <router-link :to="{ name: 'edit', params: { id: customerData.id}, query: { customerData: customerData } }"> -->
-              <router-link
-                :to="{
-                  name: 'edit',
-                  params: { id: customerData.id },
-                  query: { customerData: JSON.stringify(customerData) },
-                }"
-              >
-                <img
-                  src="@/assets/icon_edit.svg"
-                  alt="Edit Icon"
-                  class="table-icon"
-                />
-              </router-link>
-              <img
-                @click="deleteCustomer(customerData.id)"
-                src="@/assets/icon_delete.svg"
-                alt="Delete Icon"
-                class="table-icon"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Birthdate</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="customerData in customersData" :key="customerData.id">
+              <td>{{ customerData.id }}</td>
+              <td>{{ customerData.firstname }}</td>
+              <td>{{ customerData.lastname }}</td>
+              <td>{{ customerData.email }}</td>
+              <td>{{ customerData.phone }}</td>
+              <td>{{ formatDate(customerData.birthdate) }}</td>
+              <td>
+                <div class="table-actions">
+                  <!-- <router-link :to="{ name: 'edit', params: { id: customerData.id}, query: { customerData: customerData } }"> -->
+                  <img
+                    @click="editCustomer(customerData.id, customerData)"
+                    src="@/assets/icon_edit.svg"
+                    alt="Edit Icon"
+                  />
+                  <img
+                    @click="deleteCustomer(customerData.id)"
+                    src="@/assets/icon_delete.svg"
+                    alt="Delete Icon"
+                  />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -82,7 +77,7 @@ export default {
         this.noResponse = true;
         this.isLoading = false;
       }
-    }, 2000);
+    }, 5000);
   },
   methods: {
     async fetchCustomersData() {
@@ -98,6 +93,14 @@ export default {
     formatDate(dateString) {
       const options = { year: "numeric", month: "2-digit" };
       return new Date(dateString).toLocaleDateString(options);
+    },
+    editCustomer(id, customerData) {
+      console.log("customerData:", customerData);
+      this.$router.push({
+        name: "edit",
+        params: { id: id },
+        query: { customerData: JSON.stringify(customerData) },
+      });
     },
     async deleteCustomer(id) {
       try {
