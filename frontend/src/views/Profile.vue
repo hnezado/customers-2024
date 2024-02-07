@@ -19,7 +19,10 @@
     </div>
     <br />
     <button class="button" v-if="logged" @click="logout">Logout</button>
-    <div v-if="!logged">{{ logoutMsg }}</div>
+    <div v-if="!logged" class="info">
+      <p>Session closed</p>
+      <p>{{ logoutMsg }}</p>
+    </div>
   </div>
 </template>
 
@@ -49,11 +52,11 @@ export default {
       this.redirectToHome();
     },
     redirectToHome() {
-      this.logoutMsg = "Session closed. Redirecting in 5s...";
-      let countdown = 5;
+      this.logoutMsg = "Redirecting in 3s...";
+      let countdown = 3;
       const countdownInterval = setInterval(() => {
         countdown -= 1;
-        this.logoutMsg = `Session closed. Redirecting in ${countdown}s...`;
+        this.logoutMsg = `Redirecting in ${countdown}s...`;
         if (countdown <= 0) {
           clearInterval(countdownInterval);
           this.$router.push("/");

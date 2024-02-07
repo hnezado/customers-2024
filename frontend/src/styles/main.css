@@ -10,7 +10,8 @@ html {
   height: 100%;
 }
 body {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+    "Lucida Sans", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -34,6 +35,11 @@ body {
 }
 
 /* Buttons */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
 .button {
   position: relative;
   color: var(--background);
@@ -120,8 +126,11 @@ body {
   border: 1px solid var(--border);
   padding: 5px;
   text-align: left;
-  word-wrap: break-word;
-  min-height: 50px;
+  /* word-wrap: break-word; */
+  white-space: nowrap;
+  /* min-height: 50px; */
+  display: column;
+  /* justify-content: center; */
 }
 .table th {
   background-color: var(--tertiary);
@@ -141,11 +150,18 @@ body {
 .table-actions {
   display: flex;
   align-items: center;
+  img {
+    cursor: pointer;
+  }
 }
 @media (max-width: 768px) {
   .table-container {
     margin: 10px;
   }
+}
+
+.info {
+  color: var(--info);
 }
 
 /* Encabezados h1 y h2 */

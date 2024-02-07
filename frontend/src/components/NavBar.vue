@@ -33,7 +33,7 @@
         <span>{{ userData.username }}</span>
       </router-link>
     </div>
-    <div v-else class="profile-but">
+    <!-- <div v-else class="profile-but">
       <router-link to="/profile" class="profile-link">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -42,9 +42,9 @@
         >
           <use xlink:href="@/assets/icon_profile.svg#icon-profile" />
         </svg>
-        Ataulfo
+        Ataulfo-test
       </router-link>
-    </div>
+    </div> -->
   </nav>
   <div v-if="smallScreen && openedMenu" id="v-menu">
     <ul>
@@ -113,7 +113,7 @@ export default {
     hideMenu() {
       this.openedMenu = false;
       this.$eventBus.emit("toggleMenu", { opened: this.openedMenu });
-      console.log("Hidden menu.\nthis.openedMenu =", this.openedMenu);
+      // console.log("Hidden menu.\nthis.openedMenu =", this.openedMenu);
     },
     handleUserSession(status) {
       this.logged = status.logged;

@@ -280,7 +280,7 @@ app.get("/customers/list", async (req, res) => {
   try {
     conn = await pool.getConnection();
     const queryData = await conn.query(
-      "SELECT * FROM customers WHERE is_deleted = 0"
+      "SELECT id, firstname, lastname, email, DATE_FORMAT(birthdate, '%Y-%m-%d') AS birthdate, phone FROM customers WHERE is_deleted = 0"
     );
     return res.status(200).json(queryData);
   } catch (err) {
@@ -296,6 +296,7 @@ app.get("/customers/list", async (req, res) => {
 app.put("/customers/edit/:id", async (req, res) => {
   // Updates the customer data
   let conn;
+  console.log("req.body", req.body);
   try {
     conn = await pool.getConnection();
     await conn.query(

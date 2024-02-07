@@ -1,0 +1,19 @@
+.customer-edit {
+  padding: 20px;
+}
+.edit-customer-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+/* .edit-customer-container table label {
+  display: block;
+}
+.edit-customer-container table input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+} */

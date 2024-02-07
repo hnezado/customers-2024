@@ -1,5 +1,9 @@
 <template>
-  <div v-if="openedMenu" class="overlay-darkener" @click="overClick"></div>
+  <div
+    v-if="openedMenu && smallScreen"
+    class="overlay-darkener"
+    @click="overClick"
+  ></div>
   <NavBar />
   <router-view />
   <br />
@@ -19,15 +23,22 @@ export default {
     return {
       serverUrl: "",
       openedMenu: false,
+      smallScreen: false,
     };
   },
   mounted() {
+    window.addEventListener("resize", this.checkScreenSize);
+    this.checkScreenSize();
     this.$eventBus.on("toggleMenu", this.toggleMenu);
   },
   beforeUnmount() {
+    window.removeEventListener("resize", this.checkScreenSize);
     this.$eventBus.off("toggleMenu", this.toggleMenu);
   },
   methods: {
+    checkScreenSize() {
+      this.smallScreen = window.innerWidth <= 768;
+    },
     toggleMenu(status) {
       this.openedMenu = status.opened;
     },
