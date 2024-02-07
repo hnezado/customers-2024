@@ -33,6 +33,9 @@ body {
   z-index: 98;
   pointer-events: none;
 }
+.main-container {
+  padding: 20px 0;
+}
 
 /* Buttons */
 .button-container {

@@ -1,7 +1,7 @@
 <template>
-  <div class="customers-list">
-    <NoResponse :noResponse="noResponse" :pageName="pageName" :path="path" />
-    <Spinner :isLoading="isLoading" />
+  <NoResponse :noResponse="noResponse" :pageName="pageName" :path="path" />
+  <Spinner :isLoading="isLoading" />
+  <div class="main-container">
     <div v-if="!isLoading && !noResponse">
       <h1>Customers</h1>
       <div class="table-container">
@@ -48,7 +48,6 @@
 <script>
 import NoResponse from "@/components/NoResponse.vue";
 import Spinner from "@/components/Spinner.vue";
-import "@/styles/components/CustomersList.css";
 
 export default {
   name: "CustomersList",

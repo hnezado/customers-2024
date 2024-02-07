@@ -1,6 +1,6 @@
 <template>
   <Spinner :isLoading="isLoading" />
-  <div class="customer-edit">
+  <div class="main-container">
     <div v-if="!isLoading && !editedOkMsg">
       <h1>Edit Customer</h1>
       <div class="table-container">

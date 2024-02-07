@@ -1,21 +1,23 @@
 <template>
-  <h1>Signup</h1>
-  <div class="signup">
-    <span>{{ infoMsg }}</span>
-    <form @submit.prevent="signup">
-      <label for="email">Email:</label>
-      <input type="text" id="email" v-model="newUser.email" required />
-      <label for="username">Username:</label>
-      <input type="text" id="username" v-model="newUser.username" required />
-      <label for="password">Password:</label>
-      <input
-        type="password"
-        id="password"
-        v-model="newUser.password"
-        required
-      />
-      <button class="button" type="submit">Signup</button>
-    </form>
+  <div class="main-container">
+    <h1>Signup</h1>
+    <div class="signup">
+      <span>{{ infoMsg }}</span>
+      <form @submit.prevent="signup">
+        <label for="email">Email:</label>
+        <input type="text" id="email" v-model="newUser.email" required />
+        <label for="username">Username:</label>
+        <input type="text" id="username" v-model="newUser.username" required />
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          v-model="newUser.password"
+          required
+        />
+        <button class="button" type="submit">Signup</button>
+      </form>
+    </div>
   </div>
 </template>
 

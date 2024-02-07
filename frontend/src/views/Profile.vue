@@ -1,24 +1,26 @@
 <template>
-  <div class="profile">
-    <h1>My Profile Data</h1>
-    <div class="table-container">
-      <table v-if="Object.keys(userData).length" class="table">
-        <thead>
-          <tr>
-            <th>Key</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(value, key) in userData" :key="key">
-            <td>{{ key }}</td>
-            <td>{{ value }}</td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="main-container">
+    <div v-if="Object.keys(userData).length" class="profile">
+      <h1>My Profile Data</h1>
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(value, key) in userData" :key="key">
+              <td>{{ key }}</td>
+              <td>{{ value }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br />
+      <button class="button" v-if="logged" @click="logout">Logout</button>
     </div>
-    <br />
-    <button class="button" v-if="logged" @click="logout">Logout</button>
     <div v-if="!logged" class="info">
       <p>Session closed</p>
       <p>{{ logoutMsg }}</p>

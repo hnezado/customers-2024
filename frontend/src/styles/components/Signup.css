@@ -1,14 +1,14 @@
-form {
+.signup form {
   max-width: 400px;
   margin: 0 auto;
 }
 
-label {
+.signup label {
   display: block;
   margin-bottom: 5px;
 }
 
-input {
+.signup input {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;

@@ -1,19 +1,21 @@
 <template>
-  <h1>Login</h1>
-  <div class="login">
-    <span>{{ infoMsg }}</span>
-    <form @submit.prevent="login">
-      <label for="username">Username:</label>
-      <input type="text" id="username" v-model="userData.username" required />
-      <label for="password">Password:</label>
-      <input
-        type="password"
-        id="password"
-        v-model="userData.password"
-        required
-      />
-      <button class="button" type="submit">Login</button>
-    </form>
+  <div class="main-container">
+    <h1>Login</h1>
+    <div class="login">
+      <span>{{ infoMsg }}</span>
+      <form @submit.prevent="login">
+        <label for="username">Username:</label>
+        <input type="text" id="username" v-model="userData.username" required />
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          v-model="userData.password"
+          required
+        />
+        <button class="button" type="submit">Login</button>
+      </form>
+    </div>
   </div>
 </template>
 
