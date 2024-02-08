@@ -167,11 +167,43 @@ body {
   color: var(--info);
 }
 
-/* Encabezados h1 y h2 */
-/* h1 {
+.section-card {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: var(--bg-accent);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  /* box-sizing: border-box; */
+}
+
+.input-group {
+  margin: 0 20px;
+  input {
+    height: 32px;
+    border: 0px;
+    /* border: var(--text); */
+    /* border: 1px solid var(--text); */
+    border-radius: 10px;
+    /* background-color: var(--subtle); */
+  }
+  input:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    /* border: 5px dashed black; */
+    background-color: var(--subtle);
+  }
+}
+
+/* Encabezados */
+h1 {
   font-size: 24px;
-  margin-bottom: 10px;
-} */
+  /* margin-bottom: 10px; */
+}
+
+hr {
+  margin: 20px 0;
+}
 
 /* h2 {
   font-size: 20px;

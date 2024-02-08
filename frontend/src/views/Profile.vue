@@ -1,4 +1,6 @@
 <template>
+  <NoResponse :noResponse="noResponse" :pageName="pageName" :path="path" />
+  <Spinner :isLoading="isLoading" />
   <div class="main-container">
     <div v-if="Object.keys(userData).length" class="profile">
       <h1>My Profile Data</h1>
@@ -29,11 +31,21 @@
 </template>
 
 <script>
+import NoResponse from "@/components/NoResponse.vue";
+import Spinner from "@/components/Spinner.vue";
 import "@/styles/components/Profile.css";
 export default {
   name: "ProfilePage",
+  components: {
+    NoResponse,
+    Spinner,
+  },
   data() {
     return {
+      noResponse: false,
+      isLoading: true,
+      pageName: this.$options.name,
+      path: this.$route.path,
       userData: {},
       logged: false,
       logoutMsg: "",

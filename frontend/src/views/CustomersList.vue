@@ -1,10 +1,13 @@
 <template>
-  <NoResponse :noResponse="noResponse" :pageName="pageName" :path="path" />
-  <Spinner :isLoading="isLoading" />
-  <div class="main-container">
-    <div v-if="!isLoading && !noResponse">
-      <h1>Customers</h1>
-      <div class="table-container">
+  <div v-if="!noResponse" class="main-container">
+    <div>
+      <h1>Customers list</h1>
+      <div v-if="noData">
+        <br />
+        <p>Retrieved no data</p>
+        <a @click="refreshPage" class="link">Refresh</a>
+      </div>
+      <div v-if="customersData" class="table-container">
         <table class="table">
           <thead>
             <tr>
@@ -46,43 +49,52 @@
 </template>
 
 <script>
-import NoResponse from "@/components/NoResponse.vue";
-import Spinner from "@/components/Spinner.vue";
-
 export default {
   name: "CustomersList",
-  components: {
-    NoResponse,
-    Spinner,
-  },
   data() {
     return {
       noResponse: false,
-      isLoading: true,
-      pageName: this.$options.name,
-      path: this.$route.path,
-      customersData: [],
+      noData: false,
+      customersData: null,
     };
   },
-  async mounted() {
-    await this.fetchCustomersData();
-    setTimeout(() => {
-      if (this.customersData.length > 0) {
-        this.noResponse = false;
-        this.isLoading = false;
-      } else {
-        this.noResponse = true;
-        this.isLoading = false;
-      }
-    }, 1000);
+  mounted() {
+    this.$eventBus.emit("loading", { status: true });
+    this.$eventBus.emit("noResponse", { status: false });
+    this.fetchCustomersData();
   },
   methods: {
     async fetchCustomersData() {
       try {
         const res = await fetch(`${this.$config.serverUrl}/customers/list`);
-        this.customersData = await res.json();
+        // const res = await fetch(`${this.$config.serverUrl}/test`);
+        const data = await res.json();
+        setTimeout(() => {
+          if (Array.isArray(data)) {
+            if (data.length > 0) {
+              this.customersData = data;
+            } else {
+              this.noData = true;
+            }
+          } else {
+            this.noResponse = true;
+            this.$eventBus.emit("noResponse", {
+              status: true,
+              pageName: this.$options.name,
+              path: this.$route.path,
+            });
+          }
+          this.$eventBus.emit("loading", { status: false });
+        }, 5000);
       } catch (error) {
         console.error("Error fetching data from server", error);
+      }
+    },
+    refreshPage() {
+      if (typeof window !== "undefined") {
+        window.location.reload();
+      } else {
+        console.error("The page cannot refresh");
       }
     },
     editCustomer(id, customerData) {

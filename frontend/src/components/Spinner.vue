@@ -1,7 +1,6 @@
 <template>
-  <div class="loader-spinner">
-    <div v-if="isLoading" class="spinner-overlay">
-      <!-- <div class="spinner-overlay"> -->
+  <div v-if="isLoading" class="loader-spinner">
+    <div class="spinner-overlay">
       <div class="spinner"></div>
       <p class="loading-text">
         Loading<span class="dots">{{ loadingText }}</span>
@@ -25,20 +24,22 @@ export default {
       textChangeInterval: null,
     };
   },
-  mounted() {
-    if (this.isLoading) {
-      this.textChangeInterval = setInterval(this.changeText, 2000 / 6);
-    }
-  },
-  beforeUnmount() {
-    clearInterval(this.textChangeInterval);
-    this.textChangeInterval = null;
-  },
   methods: {
     changeText() {
-      const texts = ["", ".", "..", "...", "..", ".", ""];
+      const texts = ["", ".", "..", "...", "..", "."];
       this.loadingText = texts[this.textIndex];
       this.textIndex = (this.textIndex + 1) % texts.length;
+    },
+  },
+  watch: {
+    isLoading: {
+      handler() {
+        if (this.isLoading) {
+          this.textChangeInterval = setInterval(this.changeText, 2000 / 6);
+        } else {
+          clearInterval(this.textChangeInterval);
+        }
+      },
     },
   },
 };

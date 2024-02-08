@@ -21,7 +21,7 @@
         <router-link to="/contact">Contact</router-link>
       </li>
     </ul>
-    <div v-if="logged" class="profile-but">
+    <div v-if="logged">
       <router-link to="/profile" class="profile-link">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +33,7 @@
         <span>{{ userData.username }}</span>
       </router-link>
     </div>
-    <!-- <div v-else class="profile-but">
+    <div v-else class="profile-but">
       <router-link to="/profile" class="profile-link">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -44,18 +44,21 @@
         </svg>
         Ataulfo-test
       </router-link>
-    </div> -->
+    </div>
   </nav>
   <div v-if="smallScreen && openedMenu" id="v-menu">
     <ul>
       <div v-if="logged" class="profile-but" @click="hideMenu">
         <br />
-        <router-link to="/profile" class="profile-link"
-          ><img
-            src="@/assets/icon_profile.svg"
-            alt="Profile Icon"
+        <router-link to="/profile" class="profile-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 -256 1792 1792"
             class="profile-icon"
-          />{{ userData.username }}
+          >
+            <use xlink:href="@/assets/icon_profile.svg#icon-profile" />
+          </svg>
+          {{ userData.username }}
         </router-link>
       </div>
       <hr />

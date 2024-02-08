@@ -1,7 +1,9 @@
 <template>
-  <Spinner :isLoading="isLoading" />
-  <div class="main-container">
-    <div v-if="!isLoading && !editedOkMsg">
+  <div
+    v-if="!noResponse && customerData && !editedOkMsg"
+    class="main-container"
+  >
+    <div>
       <h1>Edit Customer</h1>
       <div class="table-container">
         <table class="table">
@@ -42,18 +44,13 @@
 </template>
 
 <script>
-import Spinner from "@/components/Spinner.vue";
 import "@/styles/components/CustomerEdit.css";
-
 export default {
   name: "CustomerEdit",
-  components: {
-    Spinner,
-  },
   data() {
     return {
+      noResponse: false,
       customerData: undefined,
-      isLoading: true,
       editableKeys: ["firstname", "lastname", "email", "birthdate", "phone"],
       editedOkMsg: "",
     };
@@ -61,21 +58,17 @@ export default {
   // Mounted es asíncrono así que si en template se intenta acceder a un
   // atributo de customerData, puede que éste sea undefined y de error
   mounted() {
-    // setTimeout(() => {
-    //   this.customerData = JSON.parse(this.$route.query.customerData);
-    //   this.isLoading = false;
-    // }, 500);
-    this.$nextTick(() => {
+    this.$eventBus.emit("loading", { status: true });
+    this.$eventBus.emit("noResponse", { status: false });
+    setTimeout(() => {
       this.customerData = JSON.parse(this.$route.query.customerData);
-      this.checkLoading();
-    });
+      this.$eventBus.emit("loading", { status: false });
+    }, 1000);
+    // this.$nextTick(() => {
+    //   this.customerData = JSON.parse(this.$route.query.customerData);
+    // });
   },
   methods: {
-    checkLoading() {
-      this.isLoading = !(
-        this.customerData && Object.keys(this.customerData).length
-      );
-    },
     handleInputChange(propertyName) {
       console.log(`Input value: ${this.customerData[propertyName]}`);
     },
@@ -95,7 +88,13 @@ export default {
           // console.log(`Customer with id ${id} updated successfully.`);
           this.redirectToList();
         } else {
-          console.error(`Failed to update customer with id ${id}.`);
+          this.noResponse = true;
+          this.$eventBus.emit("noResponse", {
+            status: true,
+            pageName: this.$options.name,
+            path: this.$route.path,
+          });
+          // console.error(`Failed to update customer with id ${id}.`);
         }
       } catch (error) {
         console.error("Error updating customer", error);

@@ -337,6 +337,22 @@ app.patch("/customers/delete/:id", async (req, res) => {
   }
 });
 
+app.get("/test", async (req, res) => {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const queryData = await conn.query(
+      "SELECT id, firstname, lastname, email, DATE_FORMAT(birthdate, '%Y-%m-%d') AS birthdate, phone FROM customers WHERE firstname = 'john'"
+    );
+    return res.status(200).json(queryData);
+  } catch (err) {
+    const msg = "Error retrieving data";
+    return res.status(500).json({ message: msg, error: err.message });
+  } finally {
+    if (conn) conn.release();
+  }
+});
+
 app.listen(port, () => {
   console.log(`Listening from port ${port}`);
 });
