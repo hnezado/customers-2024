@@ -1,3 +1,7 @@
+#filler {
+  height: 50px;
+}
+
 #navbar {
   position: fixed;
   top: 0;
@@ -22,12 +26,9 @@
     transition: 0.5s ease;
   }
   a:hover {
-    color: var(--quaternary);
+    color: var(--secondary);
     background-color: var(--border);
   }
-}
-#filler {
-  height: 50px;
 }
 
 #menu-toggle {
@@ -46,11 +47,15 @@
   width: 200px;
   height: 100%;
   padding: 50px 0;
-  left: 0;
   background-color: #333;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
   flex-direction: column;
   z-index: 99;
+  left: -200px;
+  transition:
+    left 0.5s ease,
+    opacity 0.2s ease;
+  opacity: 0;
   a {
     display: block;
     text-align: left;
@@ -60,9 +65,13 @@
     transition: 0.5s ease;
   }
   a:hover {
-    color: var(--quaternary);
+    color: var(--secondary);
     background-color: var(--border);
   }
+}
+#v-menu.v-menu-active {
+  left: 0;
+  opacity: 1;
 }
 
 .profile-link {
@@ -79,5 +88,5 @@
   }
 }
 .profile-link:hover svg {
-  fill: var(--quaternary);
+  fill: var(--secondary);
 }

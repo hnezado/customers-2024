@@ -1,8 +1,8 @@
 <template>
   <div
-    v-if="openedMenu && smallScreen"
+    v-if="smallScreen"
     class="overlay-darkener"
-    @click="overClick"
+    :class="{ 'darkener-active': openedMenu }"
   ></div>
   <NavBar />
   <router-view />
@@ -59,12 +59,6 @@ export default {
     },
     toggleMenu(status) {
       this.openedMenu = status.opened;
-    },
-    overlayClick() {
-      if (this.openedMenu) {
-        this.$eventBus.emit("toggleMenu", { opened: false });
-        console.log("overlayClick", this.openedMenu);
-      }
     },
   },
 };

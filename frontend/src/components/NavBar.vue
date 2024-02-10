@@ -46,16 +46,12 @@
       </router-link>
     </div>
   </nav>
-  <div v-if="smallScreen && openedMenu" id="v-menu">
+  <div v-if="smallScreen" id="v-menu" :class="{ 'v-menu-active': openedMenu }">
     <ul>
       <div v-if="logged" class="profile-but" @click="hideMenu">
         <br />
         <router-link to="/profile" class="profile-link">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 -256 1792 1792"
-            class="profile-icon"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -256 1792 1792">
             <use xlink:href="@/assets/icon_profile.svg#icon-profile" />
           </svg>
           {{ userData.username }}

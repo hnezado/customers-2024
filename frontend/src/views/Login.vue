@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container">
+  <div v-if="!noResponse" class="main-container">
     <h1>Login</h1>
     <div class="login">
       <span>{{ infoMsg }}</span>
@@ -26,6 +26,7 @@ export default {
   name: "LoginPage",
   data() {
     return {
+      noResponse: false,
       userData: {
         username: "",
         password: "",
@@ -55,10 +56,16 @@ export default {
           sessionStorage.setItem("userData", JSON.stringify(parsedRes.data));
           this.$router.push("/profile");
         } else {
-          console.error("Error logging in");
+          console.error("Error logging in from backend");
         }
       } catch (error) {
-        console.error("Error querying login");
+        console.error("No response");
+        this.noResponse = true;
+        this.$eventBus.emit("noResponse", {
+          status: true,
+          pageName: this.$options.name,
+          path: this.$route.path,
+        });
       }
     },
   },
