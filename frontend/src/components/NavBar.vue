@@ -7,22 +7,40 @@
   >
     {{ openedMenu ? "✖" : "☰" }}
   </div>
-  <div v-if="!smallScreen" id="filler"></div>
   <nav v-if="!smallScreen" id="navbar">
     <ul id="page-links">
-      <li><router-link to="/">Home</router-link></li>
       <li>
-        <router-link to="/customers/list">Customers</router-link>
+        <router-link :class="getTabClass('/')" to="/">Home</router-link>
       </li>
       <li>
-        <router-link to="/about">About</router-link>
+        <router-link :class="getTabClass('/catalog')" to="/catalog"
+          >Products</router-link
+        >
+      </li>
+      <li v-if="session.logged">
+        <router-link
+          :class="getTabClass('/customers/list')"
+          to="/customers/list"
+          >Customers</router-link
+        >
       </li>
       <li>
-        <router-link to="/contact">Contact</router-link>
+        <router-link :class="getTabClass('/about')" to="/about"
+          >About</router-link
+        >
+      </li>
+      <li>
+        <router-link :class="getTabClass('/contact')" to="/contact"
+          >Contact</router-link
+        >
       </li>
     </ul>
-    <div v-if="logged">
-      <router-link to="/profile" class="profile-link">
+    <div v-if="session.logged">
+      <router-link
+        :class="getTabClass('/profile')"
+        to="/profile"
+        class="profile-link"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 -256 1792 1792"
@@ -30,42 +48,51 @@
         >
           <use xlink:href="@/assets/icon_profile.svg#icon-profile" />
         </svg>
-        <span>{{ userData.username }}</span>
-      </router-link>
-    </div>
-    <div v-else class="profile-but">
-      <router-link to="/profile" class="profile-link">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 -256 1792 1792"
-          class="profile-icon"
-        >
-          <use xlink:href="@/assets/icon_profile.svg#icon-profile" />
-        </svg>
-        Ataulfo-test
+        <span>{{ session.userData.username }}</span>
       </router-link>
     </div>
   </nav>
   <div v-if="smallScreen" id="v-menu" :class="{ 'v-menu-active': openedMenu }">
     <ul>
-      <div v-if="logged" class="profile-but" @click="hideMenu">
+      <div v-if="session.logged" class="profile-but" @click="hideMenu">
         <br />
-        <router-link to="/profile" class="profile-link">
+        <router-link
+          :class="getTabClass('/profile')"
+          to="/profile"
+          class="profile-link"
+        >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -256 1792 1792">
             <use xlink:href="@/assets/icon_profile.svg#icon-profile" />
           </svg>
-          {{ userData.username }}
+          {{ session.userData.username }}
         </router-link>
       </div>
       <hr />
       <br />
-      <li @click="hideMenu"><router-link to="/">Home</router-link></li>
       <li @click="hideMenu">
-        <router-link to="/customers/list">Customers</router-link>
+        <router-link :class="getTabClass('/')" to="/">Home</router-link>
       </li>
-      <li @click="hideMenu"><router-link to="/about">About</router-link></li>
       <li @click="hideMenu">
-        <router-link to="/contact">Contact</router-link>
+        <router-link :class="getTabClass('/catalog')" to="/catalog"
+          >Products</router-link
+        >
+      </li>
+      <li v-if="session.logged" @click="hideMenu">
+        <router-link
+          :class="getTabClass('/customers/list')"
+          to="/customers/list"
+          >Customers</router-link
+        >
+      </li>
+      <li @click="hideMenu">
+        <router-link :class="getTabClass('/about')" to="/about"
+          >About</router-link
+        >
+      </li>
+      <li @click="hideMenu">
+        <router-link :class="getTabClass('/contact')" to="/contact"
+          >Contact</router-link
+        >
       </li>
     </ul>
   </div>
@@ -78,54 +105,52 @@ export default {
   name: "NavBar",
   data() {
     return {
-      logged: false,
       smallScreen: false,
+      session: {},
       openedMenu: false,
       menuToggleColor: "#333333",
-      userData: {},
+      viewActive: "",
     };
   },
   mounted() {
-    // document.addEventListener("click", this.handleDocumentClick);
-    this.$eventBus.on("userSession", this.handleUserSession);
-    this.$eventBus.emit("toggleMenu", { opened: false });
-    window.addEventListener("resize", this.checkScreenSize);
     this.checkScreenSize();
+    window.addEventListener("resize", this.checkScreenSize);
+    this.$eventBus.on("session", this.handleSession);
+    this.$eventBus.on("viewActive", this.handleViewActive);
+    this.$eventBus.emit("toggleMenu", { opened: false });
   },
   beforeUnmount() {
-    // document.removeEventListener("click", this.handleDocumentClick);
     window.removeEventListener("resize", this.checkScreenSize);
+    this.$eventBus.off("session", this.handleSession);
   },
   computed: {
-    computedMenuToggleColor: () => {
+    computedMenuToggleColor() {
       return this.menuToggleColor;
     },
   },
   methods: {
+    checkScreenSize() {
+      this.smallScreen = window.innerWidth <= 768;
+    },
+    handleSession(status) {
+      this.session.logged = status.logged;
+      this.session.userData = JSON.parse(sessionStorage.getItem("userData"));
+    },
+    handleViewActive(data) {
+      this.viewActive = data.view;
+    },
     toggleMenu() {
       this.openedMenu = !this.openedMenu;
       this.menuToggleColor = this.openedMenu ? "#FFFFFF" : "#333333";
       this.$eventBus.emit("toggleMenu", { opened: this.openedMenu });
-      // console.log("this.menuToggleColor", this.menuToggleColor);
-      // console.log("Toggled menu.\nthis.openedMenu =", this.openedMenu);
     },
     hideMenu() {
       this.openedMenu = false;
+      this.menuToggleColor = this.openedMenu ? "#FFFFFF" : "#333333";
       this.$eventBus.emit("toggleMenu", { opened: this.openedMenu });
-      // console.log("Hidden menu.\nthis.openedMenu =", this.openedMenu);
     },
-    handleUserSession(status) {
-      this.logged = status.logged;
-      this.userData = JSON.parse(sessionStorage.getItem("userData"));
-      // console.log(
-      //   `Handled User Session.\nthis.logged = ${this.logged}\nthis.userData = ${this.userData}`
-      // );
-    },
-    checkScreenSize() {
-      this.smallScreen = window.innerWidth <= 768;
-      // console.log(
-      //   `Checked Screen Size.\nthis.smallScreen = ${this.smallScreen}`
-      // );
+    getTabClass(route) {
+      return this.viewActive === route ? "tab-active" : "tab-inactive";
     },
   },
 };

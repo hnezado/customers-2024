@@ -115,9 +115,24 @@ async function validateSignup(conn, signupData) {
     };
   }
 
+  //////////////////////////////////////////////////////
+  // Temporal skip pass validation
+  // return {
+  //   status: 200,
+  // };
+  //////////////////////////////////////////////////////
+
   // Password validation
+  function hasValidLength(len) {
+    return signupData.password.length >= len;
+  }
+  function hasValidCharacters() {
+    const containsDigits = /\d/.test(signupData.password);
+    const containsLetters = /[a-zA-Z]/.test(signupData.password);
+    return containsDigits && containsLetters;
+  }
   try {
-    if (signupData.password.length < 8) {
+    if (!hasValidLength(8)) {
       return {
         status: 400,
         json: {
@@ -126,13 +141,7 @@ async function validateSignup(conn, signupData) {
         },
       };
     }
-    const containsDigits = /\d/.test(signupData.password);
-    const containsLetters = /[a-zA-Z]/.test(signupData.password);
-    if (containsDigits && containsLetters) {
-      return {
-        status: 200,
-      };
-    } else {
+    if (!hasValidCharacters()) {
       return {
         status: 400,
         json: {
@@ -152,6 +161,9 @@ async function validateSignup(conn, signupData) {
       },
     };
   }
+  return {
+    status: 200,
+  };
 }
 
 async function validateLogin(loginData, userData) {
@@ -269,6 +281,42 @@ app.post("/login", async (req, res) => {
     );
     const validLogin = await validateLogin(loginData, userData.json.data);
     return res.status(validLogin.status).json(validLogin.json);
+  } finally {
+    if (conn) conn.release();
+  }
+});
+
+app.get("/catalog", async (req, res) => {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const queryData = await conn.query(
+      `SELECT p.name, p.description, p.price, p.manufacturer, p.model, p.release_date, sq.categories2 AS categories, pi.portrait_url as main_img FROM products p
+      LEFT JOIN product_images pi ON p.id = pi.product_id
+      JOIN (SELECT pc.product_id AS product_id, GROUP_CONCAT(c.name) AS categories2 FROM product_category pc JOIN categories c ON pc.category_id = c.id
+      GROUP BY pc.product_id) sq ON p.id = sq.product_id;`
+      //   `SELECT
+      //   p.id,
+      //   GROUP_CONCAT(c.name) AS category,
+      //   p.name,
+      //   p.description,
+      //   p.price,
+      //   p.manufacturer,
+      //   p.model,
+      //   p.release_date,
+      //   pi.portrait_url AS main_img
+      // FROM products p
+      // JOIN product_category pc ON p.id = pc.product_id
+      // JOIN categories c ON pc.category_id = c.id
+      // LEFT JOIN product_images pi ON p.id = pi.product_id
+      // WHERE p.is_deleted = 0
+      // GROUP BY p.id, p.name, p.description, p.price, p.manufacturer, p.model, p.release_date, pi.portrait_url;`
+    );
+    return res.status(200).json(queryData);
+  } catch (err) {
+    const msg = "Error querying the database";
+    console.error(msg, err.message);
+    return res.status(500).json({ message: msg, error: err.message });
   } finally {
     if (conn) conn.release();
   }

@@ -27,5 +27,8 @@ import "@/styles/components/Contact.css";
 
 export default {
   name: "ContactPage",
+  mounted() {
+    this.$eventBus.emit("viewActive", { view: this.$route.path });
+  },
 };
 </script>

@@ -20,8 +20,12 @@ body {
   color: var(--text);
   height: 100%;
 }
+h1 {
+  font-size: 24px;
+  margin: 0 0 20px 0;
+}
 #app {
-  height: 100%;
+  height: calc(100%);
 }
 .overlay-darkener {
   position: fixed;
@@ -38,9 +42,6 @@ body {
 .overlay-darkener.darkener-active {
   opacity: 1;
   pointer-events: auto;
-}
-.main-container {
-  padding: 20px 0;
 }
 
 /* Buttons */
@@ -122,24 +123,27 @@ body {
 }
 
 /* Tables */
-.table-container {
-  margin: 20px;
+.content-container {
+  margin: 20px 10px 10px 10px;
   overflow-x: auto;
 }
+/* .table-container {
+  margin: 20px 10px 10px 10px;
+  overflow-x: auto;
+} */
 .table {
+  table-layout: fixed;
   width: 100%;
   border-collapse: collapse;
+  margin: 0 auto;
 }
 .table th,
 .table td {
   border: 1px solid var(--border);
   padding: 5px;
   text-align: left;
-  /* word-wrap: break-word; */
   white-space: nowrap;
-  /* min-height: 50px; */
-  display: column;
-  /* justify-content: center; */
+  /* display: column; */
 }
 .table th {
   background-color: var(--tertiary);
@@ -159,31 +163,38 @@ body {
 .table-actions {
   display: flex;
   align-items: center;
-  img {
-    cursor: pointer;
-  }
-}
-@media (max-width: 768px) {
-  .table-container {
-    margin: 10px;
-  }
+  justify-content: center;
+  cursor: pointer;
 }
 
-.info {
-  color: var(--info);
+.infoMsg {
+  color: var(--error);
+  margin: 0 0 5px 0;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 70px 0 0 0;
 }
 
 .section-card {
+  min-width: 300px;
   max-width: 600px;
-  margin: 20px auto;
+  margin: 0 auto;
   padding: 20px;
   background-color: var(--bg-accent);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  /* box-sizing: border-box; */
 }
 
-.input-group {
+.input-groups {
+  margin-top: 30px;
+}
+.input-pair {
   margin: 0 20px;
   input {
     height: 32px;
@@ -200,29 +211,3 @@ body {
     background-color: var(--subtle);
   }
 }
-
-/* Encabezados */
-h1 {
-  font-size: 24px;
-  /* margin-bottom: 10px; */
-}
-
-hr {
-  margin: 20px 0;
-}
-
-/* h2 {
-  font-size: 20px;
-  margin-bottom: 8px;
-} */
-
-/* Formularios */
-/* form {
-  margin-bottom: 20px;
-} */
-
-/* Imágenes */
-/* img {
-  max-width: 100%;
-  height: auto;
-} */

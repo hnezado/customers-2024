@@ -49,7 +49,6 @@ export default {
   watch: {
     responseData: {
       handler(newData) {
-        console.log("handling newData:", newData);
         this.updateData(newData);
       },
     },

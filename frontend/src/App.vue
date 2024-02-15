@@ -8,8 +8,6 @@
   <router-view />
   <NoResponse :responseData="noResponse" />
   <Spinner :isLoading="isLoading" />
-  <br />
-  <hr />
 </template>
 
 <script>
@@ -27,35 +25,53 @@ export default {
   },
   data() {
     return {
+      smallScreen: false,
+      inactivityTimeout: null,
       isLoading: false,
       noResponse: {},
       serverUrl: "",
       openedMenu: false,
-      smallScreen: false,
     };
   },
   mounted() {
-    window.addEventListener("resize", this.checkScreenSize);
     this.checkScreenSize();
+    window.addEventListener("resize", this.checkScreenSize);
+    document.addEventListener("mousemove", this.resetInactivityTimeout);
+    document.addEventListener("keydown", this.resetInactivityTimeout);
     this.$eventBus.on("loading", this.checkLoading);
     this.$eventBus.on("noResponse", this.checkNoResponse);
     this.$eventBus.on("toggleMenu", this.toggleMenu);
   },
   beforeUnmount() {
     window.removeEventListener("resize", this.checkScreenSize);
+    document.removeEventListener("mousemove", this.resetInactivityTimeout);
+    document.removeEventListener("keydown", this.resetInactivityTimeout);
+    this.$eventBus.off("inactivityTimeout", this.resetInactivityTimeout);
     this.$eventBus.off("loading", this.checkLoading);
     this.$eventBus.off("noResponse", this.checkNoResponse);
     this.$eventBus.off("toggleMenu", this.toggleMenu);
   },
   methods: {
+    checkScreenSize() {
+      this.smallScreen = window.innerWidth <= 768;
+    },
+    resetInactivityTimeout() {
+      clearTimeout(this.inactivityTimeout);
+      this.inactivityTimeout = setTimeout(this.clearSession, 500000);
+    },
+    clearSession() {
+      const currentSession = sessionStorage.getItem("userData");
+      console.log("Clearing current Session:", currentSession);
+      sessionStorage.clear();
+      const clearedSession = sessionStorage.getItem("userData");
+      console.log("Cleared session:", clearedSession);
+      this.$eventBus.emit("session", { logged: false });
+    },
     checkLoading(data) {
       this.isLoading = data.status;
     },
     checkNoResponse(data) {
       this.noResponse = data;
-    },
-    checkScreenSize() {
-      this.smallScreen = window.innerWidth <= 768;
     },
     toggleMenu(status) {
       this.openedMenu = status.opened;

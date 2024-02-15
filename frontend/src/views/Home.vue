@@ -65,6 +65,9 @@ import "@/styles/components/Home.css";
 
 export default {
   name: "HomePage",
+  mounted() {
+    this.$eventBus.emit("viewActive", { view: this.$route.path });
+  },
   methods: {
     signup() {
       this.$router.push("/signup");

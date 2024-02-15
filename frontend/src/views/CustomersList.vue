@@ -1,12 +1,7 @@
 <template>
-  <div v-if="!noResponse" class="main-container">
-    <div>
+  <div v-if="!noResponse && session.logged" class="main-container">
+    <div class="content-container">
       <h1>Customers list</h1>
-      <div v-if="noData">
-        <br />
-        <p>Retrieved no data</p>
-        <a @click="refreshPage" class="link">Refresh</a>
-      </div>
       <div v-if="customersData" class="table-container">
         <table class="table">
           <thead>
@@ -43,6 +38,11 @@
             </tr>
           </tbody>
         </table>
+        <!-- <div v-else>
+            <br />
+            <p>Retrieved no data</p>
+            <a @click="refreshPage" class="link">Refresh</a>
+          </div> -->
       </div>
     </div>
   </div>
@@ -53,39 +53,60 @@ export default {
   name: "CustomersList",
   data() {
     return {
+      session: {},
       noResponse: false,
-      noData: false,
       customersData: null,
     };
   },
   mounted() {
-    this.$eventBus.emit("loading", { status: true });
-    this.$eventBus.emit("noResponse", { status: false });
-    this.fetchCustomersData();
+    this.$eventBus.emit("viewActive", { view: this.$route.path });
+    this.$eventBus.on("session", this.handleSession);
+    const [userData, logged] = this.checkSession();
+    if (logged) {
+      this.updateSession(userData, logged);
+      this.$eventBus.emit("loading", { status: true });
+      setTimeout(() => {
+        this.fetchCustomersData();
+        this.$eventBus.emit("loading", { status: false });
+      }, 5000);
+    } else {
+      this.$router.push("/login");
+    }
+  },
+  beforeUnmount() {
+    this.$eventBus.emit("loading", { status: false });
   },
   methods: {
+    handleSession(status) {
+      if (!status.logged) {
+        this.$router.push("/login");
+      }
+    },
+    checkSession() {
+      const userData = sessionStorage.getItem("userData") || {};
+      const logged = Boolean(Object.keys(userData).length);
+      return [JSON.parse(userData), logged];
+    },
+    updateSession(userData, logged) {
+      this.session.userData = userData;
+      this.session.logged = logged;
+    },
     async fetchCustomersData() {
       try {
         const res = await fetch(`${this.$config.serverUrl}/customers/list`);
         // const res = await fetch(`${this.$config.serverUrl}/test`);
         const data = await res.json();
-        setTimeout(() => {
-          if (Array.isArray(data)) {
-            if (data.length > 0) {
-              this.customersData = data;
-            } else {
-              this.noData = true;
-            }
-          } else {
-            this.noResponse = true;
-            this.$eventBus.emit("noResponse", {
-              status: true,
-              pageName: this.$options.name,
-              path: this.$route.path,
-            });
-          }
-          this.$eventBus.emit("loading", { status: false });
-        }, 5000);
+
+        if (Array.isArray(data)) {
+          if (data.length > 0) this.customersData = data;
+        } else {
+          this.noResponse = true;
+          this.$eventBus.emit("noResponse", {
+            status: true,
+            pageName: this.$options.name,
+            path: this.$route.path,
+          });
+        }
       } catch (error) {
         console.error("Error fetching data from server", error);
       }

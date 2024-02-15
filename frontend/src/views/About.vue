@@ -8,5 +8,8 @@
 <script>
 export default {
   name: "AboutPage",
+  mounted() {
+    this.$eventBus.emit("viewActive", { view: this.$route.path });
+  },
 };
 </script>
