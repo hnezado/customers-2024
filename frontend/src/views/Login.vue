@@ -4,7 +4,6 @@
       <h1>Login</h1>
       <hr />
       <div class="login">
-        <span>{{ infoMsg }}</span>
         <form @submit.prevent="login">
           <div class="input-groups">
             <div class="input-pair">
@@ -26,6 +25,7 @@
               />
             </div>
           </div>
+          <p class="infoMsg">{{ infoMsg }}</p>
           <button class="button" type="submit">Login</button>
         </form>
         <br />
@@ -60,8 +60,6 @@ export default {
     } else {
       const signupUsername = sessionStorage.getItem("signupUsername");
       this.loginData.username = signupUsername ? signupUsername : "";
-      console.log("username:", this.loginData.username);
-      console.log(Boolean(this.loginData.username));
       this.$nextTick(() => {
         const focusedInput = signupUsername
           ? this.$el.querySelector("#password")
@@ -79,7 +77,6 @@ export default {
       return logged;
     },
     async login() {
-      console.log("logging in");
       try {
         const res = await fetch(`${this.$config.serverUrl}/login`, {
           method: "POST",
@@ -88,9 +85,9 @@ export default {
           },
           body: JSON.stringify(this.loginData),
         });
+        const parsedRes = await res.json();
+        this.infoMsg = parsedRes.message;
         if (res.ok) {
-          const parsedRes = await res.json();
-          this.infoMsg = parsedRes.message;
           sessionStorage.clear();
           sessionStorage.setItem("userData", JSON.stringify(parsedRes.data));
           this.$eventBus.emit("session", { logged: true });

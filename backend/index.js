@@ -272,6 +272,7 @@ app.post("/login", async (req, res) => {
   let conn;
   const { username, password } = req.body;
   const loginData = { username: username, password: password };
+  console.log("loginData:", loginData);
   try {
     conn = await getPoolConn();
     const userData = await retrieveUserData(
@@ -291,26 +292,24 @@ app.get("/catalog", async (req, res) => {
   try {
     conn = await pool.getConnection();
     const queryData = await conn.query(
-      `SELECT p.name, p.description, p.price, p.manufacturer, p.model, p.release_date, sq.categories2 AS categories, pi.portrait_url as main_img FROM products p
+      `SELECT
+        p.name,
+        p.description,
+        p.price,
+        p.manufacturer,
+        p.model,
+        p.release_date,
+        sq.categories2 AS categories,
+        pi.portrait_url as main_img
+      FROM products p
       LEFT JOIN product_images pi ON p.id = pi.product_id
-      JOIN (SELECT pc.product_id AS product_id, GROUP_CONCAT(c.name) AS categories2 FROM product_category pc JOIN categories c ON pc.category_id = c.id
-      GROUP BY pc.product_id) sq ON p.id = sq.product_id;`
-      //   `SELECT
-      //   p.id,
-      //   GROUP_CONCAT(c.name) AS category,
-      //   p.name,
-      //   p.description,
-      //   p.price,
-      //   p.manufacturer,
-      //   p.model,
-      //   p.release_date,
-      //   pi.portrait_url AS main_img
-      // FROM products p
-      // JOIN product_category pc ON p.id = pc.product_id
-      // JOIN categories c ON pc.category_id = c.id
-      // LEFT JOIN product_images pi ON p.id = pi.product_id
-      // WHERE p.is_deleted = 0
-      // GROUP BY p.id, p.name, p.description, p.price, p.manufacturer, p.model, p.release_date, pi.portrait_url;`
+      JOIN
+        (SELECT
+          pc.product_id AS product_id,
+          GROUP_CONCAT(c.name) AS categories2
+        FROM product_category pc
+        JOIN categories c ON pc.category_id = c.id
+        GROUP BY pc.product_id) sq ON p.id = sq.product_id;`
     );
     return res.status(200).json(queryData);
   } catch (err) {

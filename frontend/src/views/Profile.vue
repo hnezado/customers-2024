@@ -64,7 +64,7 @@ export default {
     checkSession() {
       const userData = sessionStorage.getItem("userData") || {};
       const logged = Boolean(Object.keys(userData).length);
-      return [JSON.parse(userData), logged];
+      return [logged ? JSON.parse(userData) : {}, logged];
     },
     updateSession(userData, logged) {
       this.session.userData = userData;
@@ -83,9 +83,9 @@ export default {
     logout() {
       sessionStorage.clear();
       this.session.logged = false;
-      this.redirectToHome();
+      this.redirectToLogin();
     },
-    redirectToHome() {
+    redirectToLogin() {
       this.logoutMsg = "Redirecting in 3s...";
       let countdown = 3;
       const countdownInterval = setInterval(() => {

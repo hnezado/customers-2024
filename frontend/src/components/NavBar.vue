@@ -118,6 +118,10 @@ export default {
     this.$eventBus.on("session", this.handleSession);
     this.$eventBus.on("viewActive", this.handleViewActive);
     this.$eventBus.emit("toggleMenu", { opened: false });
+    const [userData, logged] = this.checkSession();
+    if (logged) {
+      this.updateSession(userData, logged);
+    }
   },
   beforeUnmount() {
     window.removeEventListener("resize", this.checkScreenSize);
@@ -131,6 +135,15 @@ export default {
   methods: {
     checkScreenSize() {
       this.smallScreen = window.innerWidth <= 768;
+    },
+    checkSession() {
+      const userData = sessionStorage.getItem("userData") || {};
+      const logged = Boolean(Object.keys(userData).length);
+      return [logged ? JSON.parse(userData) : {}, logged];
+    },
+    updateSession(userData, logged) {
+      this.session.userData = userData;
+      this.session.logged = logged;
     },
     handleSession(status) {
       this.session.logged = status.logged;
