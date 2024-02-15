@@ -1,7 +1,7 @@
 .social-icons {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 50px;
   img {
     width: 30px;
     height: 30px;
@@ -10,6 +10,10 @@
 .icon {
   position: relative;
   margin: 0 10px;
+  transition: transform 0.3;
+}
+.icon:hover {
+  transform: scale(1.2);
 }
 .icon::before {
   content: attr(data-tooltip);

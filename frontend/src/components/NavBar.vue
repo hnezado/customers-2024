@@ -25,8 +25,8 @@
         >
       </li>
       <li>
-        <router-link :class="getTabClass('/about')" to="/about"
-          >About</router-link
+        <router-link :class="getTabClass('/locations')" to="/locations"
+          >Locations</router-link
         >
       </li>
       <li>
@@ -85,8 +85,8 @@
         >
       </li>
       <li @click="hideMenu">
-        <router-link :class="getTabClass('/about')" to="/about"
-          >About</router-link
+        <router-link :class="getTabClass('/locations')" to="/locations"
+          >Locations</router-link
         >
       </li>
       <li @click="hideMenu">

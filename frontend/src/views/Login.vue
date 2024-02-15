@@ -40,7 +40,6 @@
 
 <script>
 import "@/styles/components/Login.css";
-
 export default {
   name: "LoginPage",
   data() {

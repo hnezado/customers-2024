@@ -3,7 +3,7 @@ import Home from "@/views/Home.vue";
 import SignUp from "@/views/Signup.vue";
 import Login from "@/views/Login.vue";
 import Profile from "@/views/Profile.vue";
-import About from "@/views/About.vue";
+import Locations from "@/views/Locations.vue";
 import Contact from "@/views/Contact.vue";
 import Catalog from "@/views/Catalog.vue";
 import CustomersList from "@/views/CustomersList.vue";
@@ -14,7 +14,7 @@ const routes = [
   { path: "/signup", name: "signup", component: SignUp },
   { path: "/login", name: "login", component: Login },
   { path: "/profile", name: "profile", component: Profile },
-  { path: "/about", name: "about", component: About },
+  { path: "/locations", name: "locations", component: Locations },
   { path: "/contact", name: "contact", component: Contact },
   { path: "/catalog", name: "catalog", component: Catalog },
   { path: "/customers/list", name: "customers-list", component: CustomersList },

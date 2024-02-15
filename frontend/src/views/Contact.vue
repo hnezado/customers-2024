@@ -1,6 +1,17 @@
 <template>
   <div class="main-container">
     <h1>Contact</h1>
+    <p>Hey there! I'm Hector Martinez</p>
+    <p>
+      If you have questions, suggestions, or just want to say hello, feel free
+      to get in touch.
+    </p>
+    <br />
+    <p>
+      💻 Contact me via email at
+      <a class="link" href="#">contact@customers2024.com</a>
+    </p>
+    <p>or through my social networks 😎</p>
     <div class="social-icons">
       <a
         href="https://github.com/hnezado"
