@@ -70,16 +70,6 @@ export default {
       this.session.userData = userData;
       this.session.logged = logged;
     },
-    // updateSession(...args) {
-    //   // This method must be called with call() to assign argument values dynamically
-    //   // depending on what data is wanted to be saved on the component data (this)
-    //   // Ex: this.updateSession.call(this, "var1", "var2") will assign:
-    //   // this.session.var1 = "var1"
-    //   // this.session.var2 = "var2"
-    //   for (let i = 0; i < args.length; i++) {
-    //     this[args[i]] = args[i];
-    //   }
-    // },
     logout() {
       sessionStorage.clear();
       this.session.logged = false;
