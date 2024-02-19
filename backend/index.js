@@ -3,6 +3,7 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const db = require("mariadb");
 const config = require("./config.js");
+const path = require("path");
 
 const app = express();
 const port = 8084;
@@ -23,6 +24,8 @@ app.use(
 
 // Creates a database connection pool
 const pool = db.createPool(config.db);
+
+app.use(express.static(path.join(__dirname, "app")));
 
 async function getPoolConn() {
   // Opens the connection with the database
@@ -272,7 +275,6 @@ app.post("/login", async (req, res) => {
   let conn;
   const { username, password } = req.body;
   const loginData = { username: username, password: password };
-  console.log("loginData:", loginData);
   try {
     conn = await getPoolConn();
     const userData = await retrieveUserData(
@@ -343,7 +345,6 @@ app.get("/customers/list", async (req, res) => {
 app.put("/customers/edit/:id", async (req, res) => {
   // Updates the customer data
   let conn;
-  console.log("req.body", req.body);
   try {
     conn = await pool.getConnection();
     await conn.query(
@@ -398,6 +399,10 @@ app.get("/test", async (req, res) => {
   } finally {
     if (conn) conn.release();
   }
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "app", "index.html"));
 });
 
 app.listen(port, () => {

@@ -159,6 +159,10 @@ h1 {
   width: 20px;
   height: 20px;
   margin: 0px 10px;
+  transition: transform 0.3;
+}
+.table img:hover {
+  transform: scale(1.2);
 }
 .table-actions {
   display: flex;

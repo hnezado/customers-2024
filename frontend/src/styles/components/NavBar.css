@@ -88,3 +88,6 @@
 .profile-link:hover svg {
   fill: var(--secondary);
 }
+.tab-active svg {
+  fill: var(--secondary);
+}

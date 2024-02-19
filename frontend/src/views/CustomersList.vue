@@ -25,12 +25,12 @@
                 <div class="table-actions">
                   <img
                     @click="editCustomer(customerData.id, customerData)"
-                    src="@/assets/icon_edit.svg"
+                    src="media/icon_edit.svg"
                     alt="Edit Icon"
                   />
                   <img
                     @click="deleteCustomer(customerData.id)"
-                    src="@/assets/icon_delete.svg"
+                    src="media/icon_delete.svg"
                     alt="Delete Icon"
                   />
                 </div>

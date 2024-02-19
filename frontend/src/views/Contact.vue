@@ -16,18 +16,23 @@
       <a
         href="https://github.com/hnezado"
         target="_blank"
-        class="icon"
         data-tooltip="GitHub"
+        class="icon-tooltip"
       >
-        <img :src="require('@/assets/github.svg')" alt="GitHub-icon" />
+        <!-- <svg class="icon">
+          <use xlink:href="media/github.svg#icon-github" />
+        </svg> -->
+        <img class="icon" src="media/github.svg" alt="GitHub-icon" />
       </a>
       <a
-        href="https://www.linkedin.com/in/hector-md/"
+        href="https://www.linkedin.com/in/hector-md"
         target="_blank"
         class="icon"
         data-tooltip="LinkedIn"
       >
-        <img :src="require('@/assets/linkedin.svg')" alt="LinkedIn-icon" />
+        <svg>
+          <use xlink:href="media/linkedin.svg#icon-linkedin" />
+        </svg>
       </a>
     </div>
   </div>

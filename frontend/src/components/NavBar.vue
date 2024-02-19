@@ -46,7 +46,7 @@
           viewBox="0 -256 1792 1792"
           class="profile-icon"
         >
-          <use xlink:href="@/assets/icon_profile.svg#icon-profile" />
+          <use xlink:href="media/icon_profile.svg#icon-profile" />
         </svg>
         <span>{{ session.userData.username }}</span>
       </router-link>
@@ -62,7 +62,7 @@
           class="profile-link"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -256 1792 1792">
-            <use xlink:href="@/assets/icon_profile.svg#icon-profile" />
+            <use xlink:href="media/icon_profile.svg#icon-profile" />
           </svg>
           {{ session.userData.username }}
         </router-link>
