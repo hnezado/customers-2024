@@ -14,7 +14,6 @@ body {
     "Lucida Sans", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   line-height: 1.6;
   background-color: #d0d0d0;
   color: var(--text);
@@ -190,6 +189,7 @@ h1 {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
+  text-align: center;
   background-color: var(--bg-accent);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);

@@ -57,7 +57,7 @@ export default {
     },
     resetInactivityTimeout() {
       clearTimeout(this.inactivityTimeout);
-      this.inactivityTimeout = setTimeout(this.clearSession, 500000);
+      this.inactivityTimeout = setTimeout(this.clearSession, 3600000);
     },
     clearSession() {
       const currentSession = sessionStorage.getItem("userData");
