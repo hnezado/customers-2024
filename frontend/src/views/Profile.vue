@@ -1,6 +1,6 @@
 <template>
   <div v-if="!noResponse" class="main-container">
-    <div v-if="session.logged" class="profile">
+    <div v-if="session.logged" id="profile">
       <h1>My Profile Data</h1>
       <div class="table-container">
         <table class="table">

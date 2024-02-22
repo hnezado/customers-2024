@@ -1,11 +1,13 @@
 <template>
   <div class="main-container">
-    <h1>Our Locations</h1>
-    <p>
-      Explore our network of establishments to find the store closest to you.
-    </p>
-    <p>Begin your journey with us today!</p>
-    <div id="map"></div>
+    <div id="locations">
+      <h1>📍 Our Locations</h1>
+      <p>
+        Explore our network of establishments to find the store closest to you.
+      </p>
+      <p>Begin your journey with us today!</p>
+      <div id="map"></div>
+    </div>
   </div>
 </template>
 

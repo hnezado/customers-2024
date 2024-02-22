@@ -1,40 +1,35 @@
 <template>
   <div class="main-container">
-    <section class="section-card">
-      <h1>Login</h1>
-      <hr />
-      <div class="login">
+    <div id="login">
+      <div class="session-card">
+        <h1>Login</h1>
+        <hr />
         <form @submit.prevent="login">
-          <div class="input-groups">
-            <div class="input-pair">
-              <label for="username">Username:</label>
-              <input
-                type="text"
-                id="username"
-                v-model="loginData.username"
-                required
-              />
-            </div>
-            <div class="input-pair">
-              <label for="password">Password:</label>
-              <input
-                type="password"
-                id="password"
-                v-model="loginData.password"
-                required
-              />
-            </div>
+          <div class="label-input-groups">
+            <label for="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              v-model="loginData.username"
+              required
+            />
+            <label for="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              v-model="loginData.password"
+              required
+            />
           </div>
           <p class="infoMsg">{{ infoMsg }}</p>
           <button class="button" type="submit">Login</button>
         </form>
-        <br />
         <span
           >You don't have an account?
           <a href="/signup" class="link">Sign up</a></span
         >
       </div>
-    </section>
+    </div>
   </div>
 </template>
 

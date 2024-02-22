@@ -1,13 +1,21 @@
-@import "../palette.css";
-
-.title {
+#home {
+  width: 100%;
+  padding: 0 10px;
   text-align: center;
-  padding-bottom: 0.5em;
 }
 
-.welcome-section {
-  padding: 0 20px;
-  text-align: center;
+#home h1 {
+  font-size: 5em;
+  color: var(--background);
+  text-shadow:
+    1px 1px 2px var(--text),
+    0 0 1em var(--primary),
+    0 0 0.2em var(--primary);
+}
+#home h4 {
+  margin: 10px 0 30px;
+  color: var(--primary);
+  font-style: italic;
 }
 
 .welcome-card {
@@ -18,4 +26,10 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   /* box-sizing: border-box; */
+}
+
+@media only screen and (max-width: 600px) {
+  #home h1 {
+    font-size: 3em;
+  }
 }

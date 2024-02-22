@@ -1,10 +1,8 @@
 <template>
   <div class="main-container">
-    <div class="title">
-      <h1>Customers 2024</h1>
-    </div>
-    <section class="welcome-section">
-      <h2>Welcome!</h2>
+    <div id="home">
+      <h1>EcoBr🔩co</h1>
+      <h4>Welcome to your DIY center</h4>
       <div class="welcome-card">
         <div @click="signup" class="button">Sign Up</div>
         <span
@@ -15,48 +13,55 @@
       <br />
       <hr />
       <br />
-      <article>
-        <h2>Article</h2>
-
+      <section>
+        <strong
+          >Your one-stop destination for all your home improvement
+          needs.</strong
+        >
+      </section>
+      <br />
+      <section>
+        <h3>Explore Our Categories</h3>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Donec a diam
-          lectus. Set sit amet ipsum mauris. Maecenas congue ligula as quam
-          viverra nec consectetur ant hendrerit. Donec et mollis dolor. Praesent
-          et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt
-          congue enim, ut porta lorem lacinia consectetur.
+          Discover a wide range of tools, materials, and accessories to tackle
+          any DIY project. From woodworking to plumbing, we've got you covered.
         </p>
-
-        <h3>Subsection</h3>
-
+      </section>
+      <br />
+      <section>
+        <h3>Featured Products</h3>
         <p>
-          Donec ut librero sed accu vehicula ultricies a non tortor. Lorem ipsum
-          dolor sit amet, consectetur adipisicing elit. Aenean ut gravida lorem.
-          Ut turpis felis, pulvinar a semper sed, adipiscing id dolor.
+          Check out our curated selection of top-quality products, handpicked to
+          inspire your next project. Find the tools and materials you need to
+          bring your ideas to life.
         </p>
-
+      </section>
+      <br />
+      <section>
+        <h3>Expert Advice and Guides</h3>
         <p>
-          Pelientesque auctor nisi id magna consequat sagittis. Curabitur
-          dapibus, enim sit amet elit pharetra tincidunt feugiat nist imperdiet.
-          Ut convallis libero in urna ultrices accumsan. Donec sed odio eros.
+          Whether you're a seasoned DIY enthusiast or just getting started, our
+          expert guides and tips will help you navigate through your projects
+          with confidence. Learn new techniques and stay informed about the
+          latest trends in home improvement.
         </p>
-
-        <h3>Another subsection</h3>
-
+      </section>
+      <br />
+      <section>
+        <h3>Join Our DIY Community</h3>
         <p>
-          Donec viverra mi quis quam pulvinar at malesuada arcu rhoncus. Cum
-          soclis natoque penatibus et manis dis parturient montes, nascetur
-          ridiculus mus. In rutrum accumsan ultricies. Mauris vitae nisi at sem
-          facilisis semper ac in est.
+          Connect with like-minded DIYers in our community forums. Share your
+          projects, ask questions, and get advice from experienced DIY
+          enthusiasts. Together, we can build and create amazing things.
         </p>
-
-        <p>
-          Vivamus fermentum semper porta. Nunc diam velit, adipscing ut
-          tristique vitae sagittis vel odio. Maecenas convallis ullamcorper
-          ultricied. Curabitur ornare, ligula semper consectetur sagittis, nisi
-          diam iaculis velit, is fringille sem nunc vet mi.
-        </p>
-      </article>
-    </section>
+      </section>
+      <br />
+      <br />
+      <h3 style="font-style: italic">
+        Start your next DIY adventure with Your DIY Store. Empowering you to
+        make your home uniquely yours.
+      </h3>
+    </div>
   </div>
 </template>
 

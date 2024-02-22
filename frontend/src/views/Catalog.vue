@@ -1,22 +1,17 @@
 <template>
   <div v-if="!noResponse" class="main-container">
-    <div class="products-container">
-      <div
-        v-for="product in productsData"
-        :key="product.id"
-        class="product-card"
-      >
-        <div class="product-card-frame-img">
+    <div id="catalog">
+      <div v-for="product in productsData" :key="product.id" class="prod-card">
+        <div class="prod-card-frm-img">
           <img :src="product.main_img" :alt="product.name" />
         </div>
-        <div class="product-card-frame-data">
+        <div class="prod-card-frm-data">
           <h3>{{ product.name }}</h3>
-          <!-- <p class="product-card-description">{{ product.description }}</p> -->
-          <div class="product-card-categories-container">
+          <div class="prod-card-frm-data-cat-container">
             <span
               v-for="(category, index) in product.categories.split(',')"
               :key="index"
-              class="product-card-category"
+              class="prod-card-cat"
               >{{ category.trim() }}</span
             >
           </div>
@@ -49,7 +44,7 @@ export default {
     setTimeout(() => {
       this.fetchProductsData();
       this.$eventBus.emit("loading", { status: false });
-    }, 5000);
+    }, 2000);
   },
   beforeUnmount() {
     this.$eventBus.emit("loading", { status: false });

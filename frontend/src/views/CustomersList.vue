@@ -1,43 +1,45 @@
 <template>
   <div v-if="!noResponse && session.logged" class="main-container">
-    <div class="content-container">
-      <h1>Customers list</h1>
-      <div v-if="customersData" class="table-container">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Birthdate</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="customerData in customersData" :key="customerData.id">
-              <td>{{ customerData.firstname }}</td>
-              <td>{{ customerData.lastname }}</td>
-              <td>{{ customerData.email }}</td>
-              <td>{{ customerData.phone }}</td>
-              <td>{{ customerData.birthdate }}</td>
-              <td>
-                <div class="table-actions">
-                  <img
-                    @click="editCustomer(customerData.id, customerData)"
-                    src="media/icon_edit.svg"
-                    alt="Edit Icon"
-                  />
-                  <img
-                    @click="deleteCustomer(customerData.id)"
-                    src="media/icon_delete.svg"
-                    alt="Delete Icon"
-                  />
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+    <div id="customers-list">
+      <div class="content-container">
+        <h1>Customers list</h1>
+        <div v-if="customersData" class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Birthdate</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="customerData in customersData" :key="customerData.id">
+                <td>{{ customerData.firstname }}</td>
+                <td>{{ customerData.lastname }}</td>
+                <td>{{ customerData.email }}</td>
+                <td>{{ customerData.phone }}</td>
+                <td>{{ customerData.birthdate }}</td>
+                <td>
+                  <div class="table-actions">
+                    <img
+                      @click="editCustomer(customerData.id, customerData)"
+                      src="media/icon_edit.svg"
+                      alt="Edit Icon"
+                    />
+                    <img
+                      @click="deleteCustomer(customerData.id)"
+                      src="media/icon_delete.svg"
+                      alt="Delete Icon"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <!-- <div v-else>
             <br />
             <p>Retrieved no data</p>

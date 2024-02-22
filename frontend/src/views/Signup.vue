@@ -1,50 +1,41 @@
 <template>
   <div class="main-container">
-    <section class="section-card">
-      <h1>Sign up</h1>
-      <hr />
-      <div class="signup">
+    <div id="signup">
+      <div class="session-card">
+        <h1>Sign up</h1>
+        <hr />
         <form @submit.prevent="signup">
-          <div class="input-groups">
-            <div class="input-pair">
-              <label for="email">Email:</label>
-              <input type="text" id="email" v-model="newUser.email" required />
-            </div>
-            <div class="input-pair">
-              <label for="username">Username:</label>
-              <input
-                type="text"
-                id="username"
-                v-model="newUser.username"
-                required
-              />
-            </div>
-            <div class="input-pair">
-              <label for="password1">Password:</label>
-              <input
-                type="password"
-                id="password1"
-                v-model="newUser.password1"
-                required
-              />
-            </div>
-            <div class="input-pair">
-              <label for="password2">Re-enter password:</label>
-              <input
-                type="password"
-                id="password2"
-                v-model="newUser.password2"
-                required
-              />
-            </div>
+          <div class="label-input-groups">
+            <label for="email">Email:</label>
+            <input type="text" id="email" v-model="newUser.email" required />
+            <label for="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              v-model="newUser.username"
+              required
+            />
+            <label for="password1">Password:</label>
+            <input
+              type="password"
+              id="password1"
+              v-model="newUser.password1"
+              required
+            />
+            <label for="password2">Re-enter password:</label>
+            <input
+              type="password"
+              id="password2"
+              v-model="newUser.password2"
+              required
+            />
           </div>
           <p class="infoMsg">{{ infoMsg }}</p>
           <button class="button" type="submit">Sign up</button>
         </form>
-        <br />
         <span><a href="/login" class="link">Login</a> instead?</span>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 

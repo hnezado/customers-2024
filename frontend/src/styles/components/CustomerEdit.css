@@ -1,3 +1,21 @@
+#customer-edit {
+  width: 350px;
+  padding: 0 10px;
+  text-align: center;
+}
+
+#customer-edit .table {
+  /* width: 100%; */
+}
+
+#customer-edit .button-container {
+  /* margin: 0; */
+}
+
+#customer-edit .button {
+  /* margin: 0; */
+}
+
 .edit-customer-container {
   max-width: 600px;
   margin: auto;

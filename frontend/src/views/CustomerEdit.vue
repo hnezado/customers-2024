@@ -3,7 +3,7 @@
     v-if="!noResponse && customerData && !editedOkMsg"
     class="main-container"
   >
-    <div>
+    <div id="customer-edit">
       <h1>Edit Customer</h1>
       <div class="table-container">
         <table class="table">
