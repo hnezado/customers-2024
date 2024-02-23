@@ -1,9 +1,5 @@
 <template>
-  <div
-    v-if="smallScreen"
-    class="overlay-darkener"
-    :class="{ 'darkener-active': openedMenu }"
-  ></div>
+  <div class="overlay-darkener" :class="{ 'darkener-active': darkener }"></div>
   <NavBar />
   <router-view />
   <NoResponse :responseData="noResponse" />
@@ -30,6 +26,8 @@ export default {
       isLoading: false,
       noResponse: {},
       serverUrl: "",
+      darkener: false,
+      popup: false,
       openedMenu: false,
     };
   },
@@ -40,6 +38,7 @@ export default {
     document.addEventListener("keydown", this.resetInactivityTimeout);
     this.$eventBus.on("loading", this.checkLoading);
     this.$eventBus.on("noResponse", this.checkNoResponse);
+    this.$eventBus.on("togglePopup", this.togglePopup);
     this.$eventBus.on("toggleMenu", this.toggleMenu);
   },
   beforeUnmount() {
@@ -49,11 +48,26 @@ export default {
     this.$eventBus.off("inactivityTimeout", this.resetInactivityTimeout);
     this.$eventBus.off("loading", this.checkLoading);
     this.$eventBus.off("noResponse", this.checkNoResponse);
+    this.$eventBus.off("togglePopup", this.togglePopup);
     this.$eventBus.off("toggleMenu", this.toggleMenu);
   },
   methods: {
     checkScreenSize() {
       this.smallScreen = window.innerWidth <= 768;
+      this.checkDarkener();
+    },
+    checkDarkener() {
+      if (this.popup) {
+        this.darkener = true;
+      } else if (this.openedMenu) {
+        if (this.smallScreen) {
+          this.darkener = true;
+        } else {
+          this.darkener = false;
+        }
+      } else {
+        this.darkener = false;
+      }
     },
     resetInactivityTimeout() {
       clearTimeout(this.inactivityTimeout);
@@ -73,8 +87,15 @@ export default {
     checkNoResponse(data) {
       this.noResponse = data;
     },
+    togglePopup(status) {
+      console.log("toggling popup!");
+      this.popup = status.opened;
+      this.checkDarkener();
+    },
     toggleMenu(status) {
+      console.log("toggling menu!");
       this.openedMenu = status.opened;
+      this.checkDarkener();
     },
   },
 };

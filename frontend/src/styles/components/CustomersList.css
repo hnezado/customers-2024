@@ -3,3 +3,29 @@
   padding: 0 10px;
   text-align: center;
 }
+
+#customers-list h1 {
+  margin-bottom: 20px;
+}
+
+.confirm-win {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  justify-content: center;
+  min-width: 280px;
+  padding: 10px 20px;
+  overflow: auto;
+  z-index: 96;
+  margin: auto;
+  background-color: var(--bg-accent);
+  border-radius: 8px;
+}
+
+.options-container {
+  display: flex;
+  justify-content: space-evenly;
+}
