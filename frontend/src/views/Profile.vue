@@ -18,7 +18,6 @@
           </tbody>
         </table>
       </div>
-      <br />
       <button class="button" @click="logout">Log out</button>
     </div>
     <div v-else class="info">

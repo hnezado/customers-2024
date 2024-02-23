@@ -70,7 +70,9 @@ h1 {
   border-radius: 4px;
   cursor: pointer;
   overflow: hidden;
-  transition: background 0.5s ease;
+  transition:
+    box-shadow 0.5s ease,
+    background 0.5s ease;
   z-index: 1;
 }
 .button:hover {
@@ -140,8 +142,9 @@ h1 {
 /* Tables */
 .table-container {
   max-width: 90%;
+  max-height: 90%;
   margin: 0 auto 20px;
-  overflow-x: auto;
+  overflow: auto auto;
 }
 .table-data {
   table-layout: fixed;
@@ -168,7 +171,6 @@ h1 {
 }
 .table-actions {
   display: flex;
-  /* align-items: center; */
   justify-content: space-between;
 }
 .table-actions svg {

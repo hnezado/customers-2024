@@ -77,8 +77,6 @@ export default {
       const currentSession = sessionStorage.getItem("userData");
       console.log("Clearing current Session:", currentSession);
       sessionStorage.clear();
-      const clearedSession = sessionStorage.getItem("userData");
-      console.log("Cleared session:", clearedSession);
       this.$eventBus.emit("session", { logged: false });
     },
     checkLoading(data) {
@@ -88,12 +86,10 @@ export default {
       this.noResponse = data;
     },
     togglePopup(status) {
-      console.log("toggling popup!");
       this.popup = status.opened;
       this.checkDarkener();
     },
     toggleMenu(status) {
-      console.log("toggling menu!");
       this.openedMenu = status.opened;
       this.checkDarkener();
     },

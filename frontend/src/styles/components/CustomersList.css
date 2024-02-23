@@ -1,11 +1,29 @@
 #customers-list {
   width: 100%;
+  height: 100%;
   padding: 0 10px;
   text-align: center;
 }
 
 #customers-list h1 {
   margin-bottom: 20px;
+}
+
+.confirm-win-hidden {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  justify-content: center;
+  min-width: 280px;
+  padding: 10px 20px;
+  overflow: auto;
+  z-index: 96;
+  margin: auto;
+  background-color: var(--bg-accent);
+  border-radius: 8px;
 }
 
 .confirm-win {
@@ -23,6 +41,17 @@
   margin: auto;
   background-color: var(--bg-accent);
   border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.9);
+  transition:
+    opacity 0.5s,
+    transform 0.5s;
+}
+.confirm-win-show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .options-container {

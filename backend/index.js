@@ -341,8 +341,27 @@ app.get("/customers/list", async (req, res) => {
   }
 });
 
+app.get("/customer/:id", async (req, res) => {
+  // Retrieves the customer data
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const queryData = await conn.query(
+      "SELECT id, firstname, lastname, email, DATE_FORMAT(birthdate, '%Y-%m-%d') AS birthdate, phone FROM customers WHERE is_deleted = 0 AND id = ?",
+      [req.params.id]
+    );
+    return res.status(200).json(queryData);
+  } catch (err) {
+    const msg = "Error querying the database";
+    console.error(msg, err.message);
+    return res.status(500).json({ message: msg, error: err.message });
+  } finally {
+    if (conn) conn.release();
+  }
+});
+
 // *Si pongo aquí un patch en vez de put me falla saveEdit y delete y no se por qué
-app.put("/customers/edit/:id", async (req, res) => {
+app.put("/customer/edit/:id", async (req, res) => {
   // Updates the customer data
   let conn;
   try {
@@ -379,7 +398,9 @@ app.patch("/customers/delete/:id", async (req, res) => {
     ]);
     return res.status(204).end();
   } catch (err) {
-    console.error("Delete error:", err.message);
+    const msg = "Error deleting customer";
+    console.error(msg, err.message);
+    return res.status(500).json({ message: msg, error: err.message });
   } finally {
     if (conn) conn.release();
   }

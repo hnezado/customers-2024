@@ -1,44 +1,56 @@
 <template>
-  <div
-    v-if="!noResponse && customerData && !editedOkMsg"
-    class="main-container"
-  >
-    <div id="customer-edit">
-      <h1>Edit Customer</h1>
-      <div class="table-container">
-        <table class="table">
-          <tbody>
-            <tr v-for="key in editableKeys" :key="key">
-              <td>
-                <label :for="key">{{
-                  key.replace(/^[a-z]/, (match) => match.toUpperCase())
-                }}</label>
-              </td>
-              <td>
-                <input
-                  v-model="customerData[key]"
-                  :type="
-                    typeof customerData[key] === 'number' ? 'number' : 'text'
-                  "
-                  :id="key"
-                  required
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="button-container">
-          <button class="button" @click="saveEdit(this.customerData.id)">
-            Save
-          </button>
+  <div v-if="!noResponse" class="main-container">
+    <div v-if="customerData && !editedOkMsg" id="customer-edit">
+      <div class="edit-card">
+        <h1>Edit Customer</h1>
+        <hr />
+        <form @submit.prevent="saveEdit(customerData.id)">
+          <div class="label-input-groups">
+            <label for="firstname">Firstname: </label>
+            <input
+              type="text"
+              id="firstname"
+              v-model="customerData.firstname"
+              required
+            />
+            <label for="lastname">Lastname: </label>
+            <input
+              type="text"
+              id="lastname"
+              v-model="customerData.lastname"
+              required
+            />
+            <label for="email">Email: </label>
+            <input
+              type="text"
+              id="email"
+              v-model="customerData.email"
+              required
+            />
+            <label for="birthdate">Birthdate: </label>
+            <input
+              type="text"
+              id="birthdate"
+              v-model="customerData.birthdate"
+              required
+            />
+            <label for="phone">Phone number: </label>
+            <input
+              type="text"
+              id="phone"
+              v-model="customerData.phone"
+              required
+            />
+          </div>
+          <button class="button" type="submit">Save</button>
           <button class="button" @click="cancelEdit">Cancel</button>
-        </div>
+        </form>
       </div>
     </div>
-  </div>
-  <div v-if="editedOkMsg" class="info">
-    <p>Data updated Successfully</p>
-    <p>{{ editedOkMsg }}</p>
+    <div v-if="editedOkMsg" class="infoMsg">
+      <p>Data updated Successfully</p>
+      <p>{{ editedOkMsg }}</p>
+    </div>
   </div>
   <div></div>
 </template>
@@ -50,18 +62,17 @@ export default {
   data() {
     return {
       noResponse: false,
-      customerData: undefined,
-      editableKeys: ["firstname", "lastname", "email", "birthdate", "phone"],
+      customerData: {},
       editedOkMsg: "",
     };
   },
   // Mounted es asíncrono así que si en template se intenta acceder a un
-  // atributo de customerData, puede que éste sea undefined y de error
+  // atributo de customerData, puede que éste sea undefined y de error, por eso usamos nextTick()
   mounted() {
     this.$eventBus.emit("loading", { status: true });
     this.$eventBus.emit("noResponse", { status: false });
-    setTimeout(() => {
-      this.customerData = JSON.parse(this.$route.query.customerData);
+    setTimeout(async () => {
+      await this.fetchCustomerData(this.$route.params.id);
       this.$eventBus.emit("loading", { status: false });
     }, 1000);
     // this.$nextTick(() => {
@@ -69,13 +80,28 @@ export default {
     // });
   },
   methods: {
-    handleInputChange(propertyName) {
-      console.log(`Input value: ${this.customerData[propertyName]}`);
+    async fetchCustomerData(id) {
+      try {
+        const res = await fetch(`${this.$config.serverUrl}/customer/${id}`);
+        const data = await res.json();
+        if (Array.isArray(data) && data.length && Object.keys(data[0]).length) {
+          this.customerData = data[0];
+        } else {
+          this.noResponse = true;
+          this.$eventBus.emit("noResponse", {
+            status: true,
+            pageName: this.$options.name,
+            path: this.$route.path,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching data from server", error);
+      }
     },
     async saveEdit(id) {
       try {
         const res = await fetch(
-          `${this.$config.serverUrl}/customers/edit/${id}`,
+          `${this.$config.serverUrl}/customer/edit/${id}`,
           {
             method: "PUT",
             headers: {
@@ -85,9 +111,9 @@ export default {
           }
         );
         if (res.ok) {
-          // console.log(`Customer with id ${id} updated successfully.`);
           this.redirectToList();
         } else {
+          console.log("no response?");
           this.noResponse = true;
           this.$eventBus.emit("noResponse", {
             status: true,
@@ -108,6 +134,7 @@ export default {
       let countdown = 3;
       const countdownInterval = setInterval(() => {
         countdown -= 1;
+        console.log("editedOkMsg:", this.editedOkMsg);
         this.editedOkMsg = `Redirecting in ${countdown}s...`;
         if (countdown <= 0) {
           clearInterval(countdownInterval);

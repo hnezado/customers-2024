@@ -246,7 +246,6 @@ export default {
       this.$eventBus.emit("toggleMenu", { opened: this.openedMenu });
     },
     goToProfile() {
-      console.log("going to profile");
       this.hideMenu();
       this.$router.push("/profile");
     },

@@ -1,25 +1,26 @@
 <template>
   <div v-if="!noResponse" class="main-container">
     <div id="catalog">
-      <div v-for="product in productsData" :key="product.id" class="prod-card">
+      <div v-for="prod in productsData" :key="prod.id" class="prod-card">
         <div class="prod-card-frm-img">
-          <img :src="product.main_img" :alt="product.name" />
+          <img :src="getImgsPath(prod)" :alt="prod.name" />
+          <!-- <img :src="prod.main_img" :alt="prod.name" /> -->
         </div>
         <div class="prod-card-frm-data">
-          <h3>{{ product.name }}</h3>
+          <h3>{{ prod.name }}</h3>
           <div class="prod-card-frm-data-cat-container">
             <span
-              v-for="(category, index) in product.categories.split(',')"
+              v-for="(category, index) in prod.categories.split(',')"
               :key="index"
               class="prod-card-cat"
               >{{ category.trim() }}</span
             >
           </div>
           <p>
-            <strong>{{ product.manufacturer }}</strong>
-            {{ product.model }}
+            <strong>{{ prod.manufacturer }}</strong>
+            {{ prod.model }}
           </p>
-          <h2>{{ product.price }}€</h2>
+          <h2>{{ prod.price }}€</h2>
           <button class="button">View details</button>
         </div>
       </div>
@@ -68,6 +69,12 @@ export default {
       } catch (error) {
         console.error("Error fetching data from server", error);
       }
+    },
+    getImgsPath(prod) {
+      const manufacturer = prod.manufacturer.toLowerCase().replace(/ /g, "-");
+      const model = prod.model.toLowerCase().replace(/ /g, "-");
+      const prodName = `${manufacturer}_${model}`;
+      return `/media/products/${prodName}/${prodName}.webp`;
     },
   },
 };

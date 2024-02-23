@@ -4,7 +4,9 @@
       <h1>Customers list</h1>
       <div class="infoMsg">{{ infoMsg }}</div>
       <div v-if="customersData" class="table-container">
-        <div v-if="confirmWinEnabled" class="confirm-win">
+        <div
+          :class="['confirm-win', { 'confirm-win-show': confirmWinEnabled }]"
+        >
           <p>Are you sure you want to delete this user?</p>
           <div class="options-container">
             <button
@@ -44,7 +46,7 @@
               <td>
                 <div class="table-actions">
                   <svg
-                    @click="editCustomer(customerData.id, customerData)"
+                    @click="editCustomer(customerData.id)"
                     width="20px"
                     height="20px"
                     viewBox="0 0 1000 1000"
@@ -161,8 +163,8 @@ export default {
         // const res = await fetch(`${this.$config.serverUrl}/test`);
         const data = await res.json();
 
-        if (Array.isArray(data)) {
-          if (data.length > 0) this.customersData = data;
+        if (Array.isArray(data) && data.length) {
+          this.customersData = data;
         } else {
           this.noResponse = true;
           this.$eventBus.emit("noResponse", {
@@ -182,11 +184,10 @@ export default {
         console.error("The page cannot refresh");
       }
     },
-    editCustomer(id, customerData) {
+    editCustomer(id) {
       this.$router.push({
         name: "edit",
         params: { id: id },
-        query: { customerData: JSON.stringify(customerData) },
       });
     },
     toggleConfirmWindow(cachedCustomerId, opened) {
